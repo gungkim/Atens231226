@@ -1,0 +1,96 @@
+
+using System;       // 미리 만들어진 모듈
+using System.Collections.Generic;   // linq : 게임용은 아님, 속도가 많이 느림
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _01ConsoleApp
+{
+    
+    class Character
+    {
+                        // private[클래스 내에서는 파악 가능하나 다른 클래스에서는 확인이 불가], protected[], public[]
+        private float hp;       // (private)가 생략되어있는 상황임
+        public float HP     //프로퍼티(property)           
+        {
+            get => hp;                      // 읽기는 퍼블릭
+            private set                     // 쓰기는 프라이빗
+            {
+                hp = value;
+                //if (hp < 0)
+                //    hp = 0;
+                //if (hp > maxHp)
+                //    hp = maxhp;
+                hp = Math.Clamp(value, 0, maxHp);
+            }
+            // set => hp = value;           // 읽기는 가능하게끔하고 수정은 불가능하게끔 변경
+        }
+        protected float maxHp;
+        protected float mp;
+        protected float maxMp;
+
+
+        protected int level;
+        protected float exp;
+        protected const float maxExp = 100;       // 상수, 절대 변경 불가
+        protected float attackPower;
+        protected float defensePower;
+
+        protected string name;
+        string Name => name;        // Name 이라는 프로퍼티를 읽ㄱ 전용으로 만들고 읽으면 name을 리턴한다.
+
+        public Character()
+        {
+            hp = 100;
+            maxHp = 100;
+            mp = 50;
+            maxMp = 50;
+            level = 1;
+            exp = 0.0f;
+            attackPower = 10.0f;
+            defensePower = 5.0f;
+            name = "무명";
+        }
+
+        public Character(string _name)
+        {
+            hp = 100;
+            maxHp = 100.0f;
+            mp = 50;
+            maxMp = 50.0f;
+            level = 1;
+            exp = 0.0f;
+            attackPower = 10.0f;
+            defensePower = 5.0f;
+            this.name = _name;
+        }
+       public void Attak(Character target)
+        {
+            Console.WriteLine($"{name}가 공격한다.");
+            target.Defence(attackPower);
+        }
+
+        public virtual void Skill()     //Skill은 virtual 함수이다. => Skill 함수는 상속받은 클래스에서 덮어쓸 수 있다(override가능).
+        {
+            Console.WriteLine("캐릭터가 스킬을 사용한다");
+        }
+
+        void Defence(float damage)
+        {
+            HP -= (damage - defensePower);
+            Console.WriteLine($"{name}이 {damage - defensePower} 만큼의 피해를 입었습니다.");
+        }
+
+       void Levelup()
+        {
+
+        }
+
+        void Die()
+        {
+
+        }
+
+
+    }
+}
