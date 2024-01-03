@@ -1,0 +1,49 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemySpawner : MonoBehaviour
+{
+    // 실슴
+    // 1. 적이 스폰한다
+    // 2. 랜덤한 높이로 생선된다. (y +4~ -4)
+    // 3. 주기적으로 1마리씩 생성(시간은 재량껏)
+    Vector3 inputDir = Vector3.zero;
+    public float moveSpeed = 0.01f;
+
+    private void Awake()
+    {
+         = new ();
+        float rand = Random.Range(-4.0f, 4.0f); // 랜덤으로 -4 ~ 4
+        
+
+    }
+    private void OnEnable()
+    {
+        Time.Enemy.OnEnable;
+        Time.Enemy.Enable();
+        Time.Enemy.Fire.performed += EnemySpawn;
+     
+    }
+
+    private void OnDisable()
+    {
+        Time.Enemy
+        Time.Enemy.OnDisable;
+    }
+
+
+    private void OnSpawn()
+    {
+        (Time.deltaTime * )
+    }
+    private void Start()
+    {
+        
+    }
+    private void Update()
+    {
+        // Time.deltaTime 을 누적시키기 == 시간 측정
+
+    }
+}
