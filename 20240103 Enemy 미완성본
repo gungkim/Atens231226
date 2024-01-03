@@ -1,0 +1,45 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Enemy : MonoBehaviour
+{
+
+    public float moveSpeed = 0.01f;
+    Transform moveTransform;
+
+    Vector3 Dir = Vector3.zero;
+    
+    // 실습
+    // 1. 적은 위아래로 파도치듯이 움직인다.
+    // 2. 적은 계속 왼쪽 방향으로 이동한다.
+    private void Awake()
+    {
+        float 
+        Mathf.Cos(09.0f * Mathf.Deg2Rad);       // 90도를 라디안으로 변경하여 cos 결과 구하기
+        
+    }
+
+    private void OnEnable()
+    {
+        
+    }
+
+    private void OnDisable()
+    {
+        
+    }
+
+    private void OnMove()
+    {
+        transform.Translate(Time.deltaTime* moveSpeed *Dir);
+
+    }
+
+    private void Update()
+    {
+        transform.Translate(Time.deltaTime * moveSpeed * Vector2.left);
+        transform.Translate(Time.deltaTime * moveSpeed * Mathf.Cos(0.90f * Mathf.Deg2Rad).left);
+
+    }
+}
