@@ -1,0 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Background : MonoBehaviour
+{
+    public float scrollingSpeed = 2.5f;
+    const float Backgroundwidth = 13.6f;
+
+    Vector3 inputDir = Vector3.zero;
+
+    private void Update()
+    {
+        transform.position = new Vector3(transform.position.x - Time.deltaTime * scrollingSpeed, 0, 0);
+    }
+
+    //실습
+    // 배경이 계속 반복되게 만들기
+}
