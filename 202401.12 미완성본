@@ -1,0 +1,52 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Asteroid : RecycleObject
+{
+
+    public GameObject Asteroidprefab;
+    public float interval = 0.5f;
+
+    const float MinY = -4.0f;
+    const float MaxY = 4.0f;
+    public float minLeftEnd = 30.0f;
+    public float maxLeftEnd = -60.0f;
+
+    public float moveSpeed = 1.0f;
+
+
+    public float minY = -8.0f;
+    public float maxY = -5.0f;
+
+    float baseLineX;
+
+    private void Start()
+    {
+        baseLineX = transform.position.x;
+    }
+
+    private void Update()
+    {
+        transform.Translate(Time.deltaTime * moveSpeed * -transform.left);
+        if (transform.position.x < baseLineX)
+        {
+            transform.position = new Vector3(maxLeftEnd ,Random.Range(minY, maxY), 0.0f);
+        }
+    }
+}
+
+// 실습
+// 운석
+// 1. 운석은 만들어졌을 때 지정되는 목적지를 향해서 움직인다.
+// 2. 운석은 계속 회전한다.
+// 3. 운석은 오브젝트 풀에서 관리되어야 한다.
+//
+// 스포너
+// 1. 운석 생성용 스포너가 있어야 한다.
+// 2. 운석을 생성하고 시작점과 도착점을 지정한다.
+// 3. 돡점의 범위가 씬창에서 보여야 한다.
+
+
+// 스포너에서 생성할 때 스포너의 자식이 되는 문제 있음
