@@ -40,7 +40,7 @@ public class Score : MonoBehaviour
 
     private void Update()
     {
-        if (currentScore < goalScore)    // 점수가 올라가는 도중일 때
+        if(currentScore < goalScore)    // 점수가 올라가는 도중일 때
         {
             float speed = Mathf.Max((goalScore - currentScore) * 5.0f, scoreUpSpeed);   // 최소 scoreUpSpeed 보장
 

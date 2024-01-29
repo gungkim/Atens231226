@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 26
-  productGUID: cde3742338898b74985219ea497f90e8
+  productGUID: e7baadc2470e7504b8926a9d6f209a56
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: 02_shooting
+  productName: 02_Shooting
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -626,14 +626,14 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: 02_shooting
+  metroPackageName: 02_Shooting
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: 02_shooting
+  metroApplicationDescription: 02_Shooting
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0
@@ -701,10 +701,10 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 970bf0be-a6ef-4096-9765-6fd7458621bd
+  cloudProjectId: c9c40153-b66e-4639-9d6c-4a7e782afc41
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 02_shooting
+  projectName: shooting game 2024-01-28_02-58-38
   organizationId: gungkim119
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

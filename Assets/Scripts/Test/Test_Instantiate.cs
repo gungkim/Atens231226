@@ -7,6 +7,7 @@ public class Test_Instantiate : TestBase
 {
     public GameObject prefab;
 
+#if UNITY_EDITOR
     protected override void OnTest1(InputAction.CallbackContext context)
     {
         new GameObject();   // 비어있는 게임 오브젝트 만들기
@@ -20,7 +21,7 @@ public class Test_Instantiate : TestBase
         // 월드 좌표 : 맵(월드)의 원점(origin)을 기준으로 한 좌표
     }
 
-
+    
     protected override void OnTest3(InputAction.CallbackContext context)
     {
         // 함수 오버로딩 : 함수의 파라메터만 다르게 하여 다양한 입력을 받을 수 있게 해주는 것
@@ -60,4 +61,5 @@ public class Test_Instantiate : TestBase
         yield return new WaitForSeconds(3.0f);
         Debug.Log("종료");
     }
+#endif
 }

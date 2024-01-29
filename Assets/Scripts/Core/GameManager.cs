@@ -10,7 +10,7 @@ public class GameManager : Singleton<GameManager>
     {
         get
         {
-            if(player == null)      // 초기화 전에 Player에 접근했을 경우
+            if(player == null)
             {
                 OnInitialize();
             }
@@ -23,4 +23,5 @@ public class GameManager : Singleton<GameManager>
         base.OnInitialize();
         player = FindAnyObjectByType<Player>();
     }
+
 }
