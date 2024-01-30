@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 [RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
@@ -14,7 +15,7 @@ public class Player : MonoBehaviour
     public float moveSpeed = 0.01f;
 
     Animator anim;
-    readonly int InputY_String = Animator.StringToHash("InputX");
+    readonly int InputX_String = Animator.StringToHash("InputX");
     Rigidbody2D rigid2d;
     SpriteRenderer spriteRenderer;
 
@@ -25,6 +26,8 @@ public class Player : MonoBehaviour
     public GameObject ChargedBulletPrefab;
 
     Transform[] fireTransforms;
+
+    GameObject fireFlash;
 
     WaitForSeconds flashWait;
 
@@ -136,6 +139,7 @@ public class Player : MonoBehaviour
             fireTransforms[i] = fireRoot.GetChild(i);
         }
 
+        fireFlash = transform.GetChild(1).gameObject;
         flashWait = new WaitForSeconds(0.1f);
 
         fireCoroutine = FireCoroutine();
@@ -211,15 +215,45 @@ public class Player : MonoBehaviour
             for (int i = 0; i < Power; i++)
             {
                 Fire(fireTransforms[i]);
+
+
             }
             yield return new WaitForSeconds(chargefireInterval); 
+        }
+    }
+
+    public void OnSpacebar(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (context.interaction is HoldInteraction)         // 차지 공격
+            {
+
+            }
+
+            else if (context.interaction is PressInteraction)   // 일반 공격
+            {
+
+
+            }
         }
     }
 
 
     void Fire(Transform fireTransform)
     {
+        StartCoroutine(FlashEffect());
+
         Factory.Instance.GetBullet(fireTransform.position, fireTransform.eulerAngles.z);
+    }
+
+    IEnumerator FlashEffect()
+    {
+        fireFlash.SetActive(true);
+
+        yield return flashWait;
+
+        fireFlash.SetActive(false);
     }
 
 
@@ -239,7 +273,7 @@ public class Player : MonoBehaviour
     {
         inputDir = context.ReadValue<Vector2>();
 
-        anim.SetFloat(InputY_String, inputDir.y);
+        anim.SetFloat(InputX_String, inputDir.x);
     }
 
     public void AddScore(int getScore)
@@ -292,7 +326,6 @@ public class Player : MonoBehaviour
             yield return null;
         }
 
-        // 2초가 지난후
         gameObject.layer = LayerMask.NameToLayer("Player");
         spriteRenderer.color = Color.white;                
 

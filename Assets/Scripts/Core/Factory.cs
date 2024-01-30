@@ -6,7 +6,8 @@ using UnityEngine;
 public enum PoolObjectType
 {
     PlayerBullet = 0,
-    HitEffect,        
+    HitEffect,
+    ExplosionEffect,
     PowerUp,          
     EnemyWave,        
     EnemyAsteroid,    
@@ -22,6 +23,7 @@ public class Factory : Singleton<Factory>
 {
     BulletPool bullet;
     HitEffectPool hit;
+    ExplosionEffectPool explosion;
     PowerUpPool powerUp;
     WavePool enemy;
     AsteroidPool asteroid;
@@ -43,6 +45,10 @@ public class Factory : Singleton<Factory>
 
         hit = GetComponentInChildren<HitEffectPool>();
         if ( hit != null )
+            hit.Initialize();
+
+        explosion = GetComponentInChildren<ExplosionEffectPool>();
+        if (hit != null)
             hit.Initialize();
 
         powerUp = GetComponentInChildren<PowerUpPool>();
@@ -86,6 +92,9 @@ public class Factory : Singleton<Factory>
                 break;
             case PoolObjectType.HitEffect:
                 result = hit.GetObject(position, euler).gameObject;
+                break;
+            case PoolObjectType.ExplosionEffect:
+                result = explosion.GetObject(position, euler).gameObject;
                 break;
             case PoolObjectType.PowerUp:
                 result = powerUp.GetObject(position, euler).gameObject;
@@ -137,6 +146,16 @@ public class Factory : Singleton<Factory>
     public Explosion GetHitEffect(Vector3 position, float angle = 0.0f)
     {
         return hit.GetObject(position, angle * Vector3.forward);
+    }
+
+    public Explosion GetExplosionEffect()
+    {
+        return explosion.GetObject();
+    }
+
+    public Explosion GetExplosionEffect(Vector3 position, float angle = 0.0f)
+    {
+        return explosion.GetObject(position, angle * Vector3.forward);
     }
 
     public PowerUp GetPowerUp()

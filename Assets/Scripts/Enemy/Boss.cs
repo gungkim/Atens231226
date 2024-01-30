@@ -13,9 +13,9 @@ public class Boss : EnemyBase
 
     public float bulletInterval = 1.0f;
  
-    public Vector2 areaMin = new Vector2(2, -3);
+    public Vector2 areaMin = new Vector2(-3, 2);
 
-    public Vector2 areaMax = new Vector2(7, 3);
+    public Vector2 areaMax = new Vector2(2, 7);
   
     public int barrageCount = 3;
 
@@ -25,7 +25,7 @@ public class Boss : EnemyBase
 
     Transform fire3;
 
-    Vector3 moveDirection = Vector3.up;
+    Vector3 moveDirection = Vector3.down;
 
     private void Awake()
     {
@@ -56,8 +56,8 @@ public class Boss : EnemyBase
             yield return null;
         }
 
-        StartCoroutine(FireBullet()); 
-        ChangeDirection();            
+        StartCoroutine(FireBullet());
+        ChangeDirection();
         
         while(true)
         {
@@ -74,8 +74,8 @@ public class Boss : EnemyBase
     void ChangeDirection()
     {
         Vector3 target = new Vector3();
-        target.x = (transform.position.x > 0) ? areaMin.x : areaMax.x;
-        target.y= Random.Range(areaMin.y, areaMax.y);
+        target.x = Random.Range(areaMin.x, areaMax.x);
+        target.y = (transform.position.y > 0) ? areaMin.y : areaMax.y;
 
         moveDirection = (target - transform.position).normalized;
     }
@@ -84,10 +84,10 @@ public class Boss : EnemyBase
     {
         Gizmos.color = Color.blue;
 
-        Vector3 p0 = new(areaMin.x, areaMin.y);
-        Vector3 p1 = new(areaMax.x, areaMin.y);
-        Vector3 p2 = new(areaMax.x, areaMax.y);
-        Vector3 p3 = new(areaMin.x, areaMax.y);
+        Vector3 p0 = new(areaMin.y, areaMin.x);
+        Vector3 p1 = new(areaMax.y, areaMin.x);
+        Vector3 p2 = new(areaMax.y, areaMax.x);
+        Vector3 p3 = new(areaMin.y, areaMax.x);
             
         Gizmos.DrawLine(p0, p1);
         Gizmos.DrawLine(p1, p2);

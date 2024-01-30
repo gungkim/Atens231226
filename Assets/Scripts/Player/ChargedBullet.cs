@@ -5,7 +5,7 @@ using UnityEngine;
 public class ChargedBullet : RecycleObject
 {
 
-    public float moveSpeed = 8.0f;
+    public float moveSpeed = 7.0f;
 
     public float lifeTime = 10.0f;
 

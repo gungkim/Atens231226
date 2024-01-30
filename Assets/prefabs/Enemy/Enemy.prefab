@@ -103,7 +103,7 @@ MonoBehaviour:
   frequency: 2
   hp: 3
   score: 10
-  HiteffectPrefab: {fileID: 0}
+  HiteffectPrefab: {fileID: 5944300297151803503, guid: bddd6c895e12e9548afa46a8fc7155a3, type: 3}
 --- !u!50 &-2298784765459669511
 Rigidbody2D:
   serializedVersion: 4

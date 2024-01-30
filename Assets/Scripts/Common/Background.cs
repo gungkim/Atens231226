@@ -6,30 +6,30 @@ public class Background : MonoBehaviour
 {
     public float scrollingSpeed = 2.5f;
 
-    const float BackgroundLength = 24.0f;
+    const float BackgroundLength = 21.7f;
 
-    Transform[] background;
+    Transform[] bgSlots;
 
     float baseLineY;
 
     protected virtual void Awake()
     {
-        background = new Transform[transform.childCount];
-        for(int i = 0; i < background.Length; i++)
+        bgSlots = new Transform[transform.childCount];
+        for(int i = 0; i < bgSlots.Length; i++)
         {
-            background[i] = transform.GetChild(i);
+            bgSlots[i] = transform.GetChild(i);
         }
 
-        baseLineY = transform.position.x - BackgroundLength;
+        baseLineY = transform.position.y - BackgroundLength;
     }
 
     private void Update()
     {
-        for(int i = 0;i < background.Length;i++)
+        for(int i = 0;i < bgSlots.Length;i++)
         {
-            background[i].Translate(Time.deltaTime * scrollingSpeed * -transform.up);
+            bgSlots[i].Translate(Time.deltaTime * scrollingSpeed * -transform.up);
 
-            if (background[i].position.x < baseLineY)
+            if (bgSlots[i].position.y < baseLineY)
             {
                 MoveUp(i);
             }
@@ -40,6 +40,6 @@ public class Background : MonoBehaviour
     protected virtual void MoveUp(int index)
 
     {
-        background[index].Translate(BackgroundLength * background.Length * transform.up);
+        bgSlots[index].Translate(BackgroundLength * bgSlots.Length * transform.up);
     }
 }
