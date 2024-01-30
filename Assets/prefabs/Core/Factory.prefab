@@ -30,9 +30,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2361001105227664519}
   - {fileID: 6315080902353851009}
   - {fileID: 5462854800486383786}
+  - {fileID: 7033024324390384996}
   - {fileID: 5140719185034480697}
   - {fileID: 3613739672290029904}
   - {fileID: 9168422088905248698}
@@ -126,68 +126,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3583652371811395780, guid: b29b257e468c774469ab3c7964bfee3c, type: 3}
   m_PrefabInstance: {fileID: 724602488211545170}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1669452420137834284
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 3230179791832193987}
-    m_Modifications:
-    - target: {fileID: 1418077253295393527, guid: 99975b0b7202e8448b22e63547ec4369, type: 3}
-      propertyPath: m_Name
-      value: HitEffectPool
-      objectReference: {fileID: 0}
-    - target: {fileID: 4028720415627877291, guid: 99975b0b7202e8448b22e63547ec4369, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4028720415627877291, guid: 99975b0b7202e8448b22e63547ec4369, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4028720415627877291, guid: 99975b0b7202e8448b22e63547ec4369, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4028720415627877291, guid: 99975b0b7202e8448b22e63547ec4369, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4028720415627877291, guid: 99975b0b7202e8448b22e63547ec4369, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4028720415627877291, guid: 99975b0b7202e8448b22e63547ec4369, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4028720415627877291, guid: 99975b0b7202e8448b22e63547ec4369, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4028720415627877291, guid: 99975b0b7202e8448b22e63547ec4369, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4028720415627877291, guid: 99975b0b7202e8448b22e63547ec4369, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4028720415627877291, guid: 99975b0b7202e8448b22e63547ec4369, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 99975b0b7202e8448b22e63547ec4369, type: 3}
---- !u!4 &2361001105227664519 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4028720415627877291, guid: 99975b0b7202e8448b22e63547ec4369, type: 3}
-  m_PrefabInstance: {fileID: 1669452420137834284}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1755523615883082186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -198,11 +136,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3069857218905432851, guid: 0524fadc6b962b84e92728e4bd962e14, type: 3}
       propertyPath: poolSize
-      value: 4
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4263088824842884614, guid: 0524fadc6b962b84e92728e4bd962e14, type: 3}
       propertyPath: m_Name
-      value: ExplosionEffectPool
+      value: HitEffectPool
       objectReference: {fileID: 0}
     - target: {fileID: 6848672875877053939, guid: 0524fadc6b962b84e92728e4bd962e14, type: 3}
       propertyPath: m_LocalPosition.x
@@ -326,7 +264,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2875037712184522078, guid: 5e79839e5176b0443971c1353f8ce325, type: 3}
       propertyPath: m_Name
-      value: BossMissilePool
+      value: BossMissliePool
+      objectReference: {fileID: 0}
+    - target: {fileID: 7466423095134781271, guid: 5e79839e5176b0443971c1353f8ce325, type: 3}
+      propertyPath: poolSize
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 9176988182964740923, guid: 5e79839e5176b0443971c1353f8ce325, type: 3}
       propertyPath: m_LocalPosition.x
@@ -692,7 +634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6022856619979038560, guid: 35f958f59f122034986f9c112cb75aa5, type: 3}
       propertyPath: poolSize
-      value: 4
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -774,6 +716,72 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6509643124088093548, guid: e2822ad665ee87f409942cbfc5a74663, type: 3}
   m_PrefabInstance: {fileID: 5646043026321050187}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6434078261658595861
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3230179791832193987}
+    m_Modifications:
+    - target: {fileID: 441854972883217251, guid: 7ce3439fad8dabc4ab3a3c91e13ec007, type: 3}
+      propertyPath: poolSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4093809765669488497, guid: 7ce3439fad8dabc4ab3a3c91e13ec007, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4093809765669488497, guid: 7ce3439fad8dabc4ab3a3c91e13ec007, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4093809765669488497, guid: 7ce3439fad8dabc4ab3a3c91e13ec007, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4093809765669488497, guid: 7ce3439fad8dabc4ab3a3c91e13ec007, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4093809765669488497, guid: 7ce3439fad8dabc4ab3a3c91e13ec007, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4093809765669488497, guid: 7ce3439fad8dabc4ab3a3c91e13ec007, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4093809765669488497, guid: 7ce3439fad8dabc4ab3a3c91e13ec007, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4093809765669488497, guid: 7ce3439fad8dabc4ab3a3c91e13ec007, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4093809765669488497, guid: 7ce3439fad8dabc4ab3a3c91e13ec007, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4093809765669488497, guid: 7ce3439fad8dabc4ab3a3c91e13ec007, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8235133640399741439, guid: 7ce3439fad8dabc4ab3a3c91e13ec007, type: 3}
+      propertyPath: m_Name
+      value: ExplosionEffectPool
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7ce3439fad8dabc4ab3a3c91e13ec007, type: 3}
+--- !u!4 &7033024324390384996 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4093809765669488497, guid: 7ce3439fad8dabc4ab3a3c91e13ec007, type: 3}
+  m_PrefabInstance: {fileID: 6434078261658595861}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6489663104145692706
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -826,10 +834,6 @@ PrefabInstance:
       propertyPath: poolSize
       value: 32
       objectReference: {fileID: 0}
-    - target: {fileID: 1600095992985995578, guid: 9f4f52a1db9ed144a80d32cc9d7be13d, type: 3}
-      propertyPath: originalPrefab
-      value: 
-      objectReference: {fileID: 8712901141210825832, guid: 22d5483a263c7d84289ace3c92d0bb2b, type: 3}
     - target: {fileID: 8525111847531681656, guid: 9f4f52a1db9ed144a80d32cc9d7be13d, type: 3}
       propertyPath: m_Name
       value: BulletPool

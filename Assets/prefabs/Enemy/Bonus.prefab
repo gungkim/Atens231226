@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7863157602838340947}
   - component: {fileID: 4240580533770802535}
   - component: {fileID: 8059065126735782738}
-  - component: {fileID: 5181517697382108845}
+  - component: {fileID: 2686081388235033614}
   m_Layer: 7
   m_Name: Bonus
   m_TagString: Enemy
@@ -104,7 +104,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!60 &5181517697382108845
+--- !u!60 &2686081388235033614
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,11 +148,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.65, y: 0.8}
-      - {x: 0.3, y: 0.8}
-      - {x: -0.9, y: 0}
-      - {x: 0.3, y: -0.8}
-      - {x: 0.65, y: -0.8}
+    - - {x: 0.8, y: 0.65}
+      - {x: 0.8, y: 0.3}
+      - {x: 0, y: -0.9}
+      - {x: -0.8, y: 0.3}
+      - {x: -0.8, y: 0.65}
   m_UseDelaunayMesh: 0
 --- !u!1 &8010621678779089268
 GameObject:
@@ -179,13 +179,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8010621678779089268}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.91, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalPosition: {x: 0, y: 0.91, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3957727651100929126}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!212 &3804092792468999601
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -263,13 +263,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8702799133155633386}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3957727651100929126}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5807671041060768267
 SpriteRenderer:
   m_ObjectHideFlags: 0

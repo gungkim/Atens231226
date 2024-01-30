@@ -9,7 +9,6 @@ public class EnemyBase : RecycleObject
 
     public float moveSpeed = 1.0f;
 
-
     int hp = 1;
 
     private int HP
@@ -18,7 +17,7 @@ public class EnemyBase : RecycleObject
         set
         {
             hp = value;
-            if(hp <= 0) 
+            if(hp <= 0)
             {
                 hp = 0;
                 OnDie();
@@ -26,15 +25,11 @@ public class EnemyBase : RecycleObject
         }
     }
 
-
     public int maxHP = 1;
-
 
     public int score = 10;
 
-
     Action onDie;
-
 
     Player player;
 
@@ -42,15 +37,15 @@ public class EnemyBase : RecycleObject
     protected override void OnEnable()
     {
         base.OnEnable();
-        OnInitialize();  
+        OnInitialize();
     }
 
     protected override void OnDisable()
     {
         if(player != null)
         {
-            onDie -= PlayerAddScore;    
-            onDie = null;               
+            onDie -= PlayerAddScore;
+            onDie = null;           
             player = null;
         }
 
@@ -65,7 +60,7 @@ public class EnemyBase : RecycleObject
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.CompareTag("Bullet")
-            || collision.gameObject.CompareTag("Player")) 
+            || collision.gameObject.CompareTag("Player"))
         {
             HP--;
         }
@@ -75,12 +70,12 @@ public class EnemyBase : RecycleObject
     {
         if( player == null )
         {
-            player = GameManager.Instance.Player; 
+            player = GameManager.Instance.Player;
         }
 
         if( player != null )
         {
-            onDie += PlayerAddScore; 
+            onDie += PlayerAddScore;
         }
 
         HP = maxHP; 
@@ -88,17 +83,16 @@ public class EnemyBase : RecycleObject
 
     protected virtual void OnMoveUpdate(float deltaTime)
     {
-        transform.Translate(deltaTime * moveSpeed * -transform.right, Space.World);
+        transform.Translate(deltaTime * moveSpeed * -transform.up, Space.World);
     }
 
     protected virtual void OnDie()
     {
-        // 터지는 이팩트 생성
-        Factory.Instance.GetHitEffect(transform.position);
+        Factory.Instance.GetExplosionEffect(transform.position);
 
-        onDie?.Invoke();             
+        onDie?.Invoke();              
 
-        gameObject.SetActive(false); 
+        gameObject.SetActive(false);  
     }
 
     void PlayerAddScore()

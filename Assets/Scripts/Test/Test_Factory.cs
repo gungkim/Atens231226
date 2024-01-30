@@ -24,6 +24,9 @@ public class Test_Factory : TestBase
             case PoolObjectType.HitEffect:
                 Factory.Instance.GetHitEffect(position);
                 break;
+            case PoolObjectType.ExplosionEffect:
+                Factory.Instance.GetExplosionEffect(position);
+                break;
             case PoolObjectType.EnemyWave:
                 Factory.Instance.GetEnemyWave(position);
                 break;       

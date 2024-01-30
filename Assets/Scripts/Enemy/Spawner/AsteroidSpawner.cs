@@ -19,10 +19,11 @@ public class AsteroidSpawner : EnemySpawner
         {
             destinationArea = transform.GetChild(0);
         }
-        Gizmos.color = Color.yellow;
-        Vector3 p0 = transform.position + Vector3.left * MaxX;
-        Vector3 p1 = transform.position + Vector3.left * MinX;
-        Gizmos.DrawLine(p0, p1);
+
+        Gizmos.color = Color.yellow; 
+        Vector3 p0 = destinationArea.position + Vector3.left * MaxX;
+        Vector3 p1 = destinationArea.position + Vector3.left * MinX;
+        Gizmos.DrawLine(p0, p1);   
     }
 
     protected override void OnDrawGizmosSelected()
@@ -32,7 +33,8 @@ public class AsteroidSpawner : EnemySpawner
         {
             destinationArea = transform.GetChild(0);
         }
-        Gizmos.color = Color.red;
+
+        Gizmos.color = Color.red; 
         Vector3 p0 = transform.position + Vector3.left * MaxX - Vector3.up * 0.5f;
         Vector3 p1 = transform.position + Vector3.left * MaxX + Vector3.up * 0.5f;
         Vector3 p2 = transform.position + Vector3.left * MinX + Vector3.up * 0.5f;

@@ -20,7 +20,6 @@ public class Curve : EnemyBase
     {
         if(transform.position.x < 0)
         {
-
             curveDirection = -1.0f;
         }
         else

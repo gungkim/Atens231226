@@ -45,7 +45,7 @@ public class MultySpawner : MonoBehaviour
             yield return new WaitForSeconds(data.interval);
             float length = Random.Range(MinX, MaxX);
 
-            GameObject obj = Factory.Instance.GetObject(data.spawnType, new(transform.position.x, length, 0.0f));
+            GameObject obj = Factory.Instance.GetObject(data.spawnType, new(length, transform.position.y, 0.0f));
 
             switch (data.spawnType)
             {
@@ -67,24 +67,24 @@ public class MultySpawner : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
-        Vector3 p0 = transform.position + Vector3.left * MaxX;
-        Vector3 p1 = transform.position + Vector3.left * MinX;
-        Gizmos.DrawLine(p0, p1);                            
+        Gizmos.color = Color.green;                             
+        Vector3 p0 = transform.position + Vector3.left * MaxX;  
+        Vector3 p1 = transform.position + Vector3.left * MinX;  
+        Gizmos.DrawLine(p0, p1);                                
 
         if (asteroidDestination == null)
         {
             asteroidDestination = transform.GetChild(0);
         }
-        Gizmos.color = Color.yellow;
-        Vector3 p2 = asteroidDestination.position + Vector3.left * MaxX; 
-        Vector3 p3 = asteroidDestination.position + Vector3.left * MinX; 
-        Gizmos.DrawLine(p2, p3);
+        Gizmos.color = Color.yellow;              
+        Vector3 p2 = asteroidDestination.position + Vector3.left * MaxX;
+        Vector3 p3 = asteroidDestination.position + Vector3.left * MinX;
+        Gizmos.DrawLine(p2, p3);                     
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.red;     
         Vector3 p0 = transform.position + Vector3.left * MaxX - Vector3.up * 0.5f;
         Vector3 p1 = transform.position + Vector3.left * MaxX + Vector3.up * 0.5f;
         Vector3 p2 = transform.position + Vector3.left * MinX + Vector3.up * 0.5f;
@@ -98,8 +98,8 @@ public class MultySpawner : MonoBehaviour
         {
             asteroidDestination = transform.GetChild(0);
         }
-        
-        Gizmos.color = Color.red;
+
+        Gizmos.color = Color.red;    
         Vector3 p4 = asteroidDestination.position + Vector3.left * MaxX - Vector3.up * 0.5f;
         Vector3 p5 = asteroidDestination.position + Vector3.left * MaxX + Vector3.up * 0.5f;
         Vector3 p6 = asteroidDestination.position + Vector3.left * MinX + Vector3.up * 0.5f;
@@ -109,4 +109,6 @@ public class MultySpawner : MonoBehaviour
         Gizmos.DrawLine(p6, p7);
         Gizmos.DrawLine(p7, p4);
     }
+
+
 }

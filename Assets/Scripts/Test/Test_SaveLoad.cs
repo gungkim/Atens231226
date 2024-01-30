@@ -14,7 +14,6 @@ public class Test_SaveLoad : TestBase
     private void Start()
     {
         player = GameManager.Instance.Player;
-        //panel.Test_LoadRankPanel();
     }
 
     protected override void OnTest1(InputAction.CallbackContext context)

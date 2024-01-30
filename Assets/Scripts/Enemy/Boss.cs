@@ -6,21 +6,21 @@ using UnityEngine;
 public class Boss : EnemyBase
 {
     [Header("보스 데이터")]
- 
+
     public PoolObjectType bullet = PoolObjectType.EnemyBossBullet;
 
     public PoolObjectType missile = PoolObjectType.EnemyBossMissile;
 
     public float bulletInterval = 1.0f;
- 
+
     public Vector2 areaMin = new Vector2(-3, 2);
 
-    public Vector2 areaMax = new Vector2(2, 7);
-  
+    public Vector2 areaMax = new Vector2(3, 7);
+
     public int barrageCount = 3;
 
     Transform fire1;
- 
+
     Transform fire2;
 
     Transform fire3;
@@ -50,18 +50,18 @@ public class Boss : EnemyBase
     {
         moveDirection = Vector3.down;
 
-        float middleY = (areaMax.y - areaMin.y) * 0.5f + areaMin.y;
-        while(transform.position.y > middleY) 
+        float middleX = (areaMax.x - areaMin.x) * 0.5f + areaMin.x;
+        while(transform.position.x > middleX)
         {
             yield return null;
         }
 
         StartCoroutine(FireBullet());
-        ChangeDirection();
-        
+        ChangeDirection();           
+
         while(true)
         {
-            if(transform.position.x > areaMax.x || transform.position.x < areaMin.x)
+            if(transform.position.y > areaMax.y || transform.position.y < areaMin.y)
             {
                 ChangeDirection();            
                 StartCoroutine(FireMissile());
@@ -70,24 +70,24 @@ public class Boss : EnemyBase
         }
     }
 
- 
     void ChangeDirection()
     {
         Vector3 target = new Vector3();
-        target.x = Random.Range(areaMin.x, areaMax.x);
-        target.y = (transform.position.y > 0) ? areaMin.y : areaMax.y;
+        target.x = Random.Range(areaMin.x, areaMax.x);                  
+        target.y = (transform.position.y > 0) ? areaMin.y : areaMax.y;  
 
-        moveDirection = (target - transform.position).normalized;
+
+        moveDirection = (target - transform.position).normalized;       
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
 
-        Vector3 p0 = new(areaMin.y, areaMin.x);
-        Vector3 p1 = new(areaMax.y, areaMin.x);
-        Vector3 p2 = new(areaMax.y, areaMax.x);
-        Vector3 p3 = new(areaMin.y, areaMax.x);
+        Vector3 p0 = new(areaMin.x, areaMin.y);
+        Vector3 p1 = new(areaMax.x, areaMin.y);
+        Vector3 p2 = new(areaMax.x, areaMax.y);
+        Vector3 p3 = new(areaMin.x, areaMax.y);
             
         Gizmos.DrawLine(p0, p1);
         Gizmos.DrawLine(p1, p2);

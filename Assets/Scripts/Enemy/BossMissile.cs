@@ -8,7 +8,6 @@ public class BossMissile : EnemyBase
 
     public float guidedPerformance = 1.5f;
 
-
     Transform target;
 
     bool onGuided = true;
@@ -25,13 +24,13 @@ public class BossMissile : EnemyBase
         base.OnMoveUpdate(deltaTime);
         if(onGuided)
         {
-            Vector3 dir = Vector3.down;
+            Vector3 dir = Vector3.left;
             if( target != null ) 
             {
                 dir = target.position - transform.position;
             }
 
-            transform.up = -Vector3.Slerp(-transform.up, dir, deltaTime * guidedPerformance);
+            transform.right = -Vector3.Slerp(-transform.right, dir, deltaTime * guidedPerformance);         
         }
     }
 

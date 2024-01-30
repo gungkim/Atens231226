@@ -8,6 +8,7 @@ public class Test_ObjectPool : TestBase
     public BulletPool pool1;
     public WavePool pool2;
     public HitEffectPool pool3;
+    public ExplosionEffectPool pool4;
 
 #if UNITY_EDITOR
     private void Start()
@@ -27,6 +28,11 @@ public class Test_ObjectPool : TestBase
     protected override void OnTest3(InputAction.CallbackContext context)
     {
         pool2.GetObject();
+    }
+
+    protected override void OnTest4(InputAction.CallbackContext context)
+    {
+        pool4.GetObject();
     }
 #endif
 }

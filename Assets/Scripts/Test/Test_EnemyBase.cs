@@ -16,7 +16,6 @@ public class Test_EnemyBase : TestBase
     protected override void OnTest1(InputAction.CallbackContext context)
     {
         Factory.Instance.GetEnemyWave(spawn.position);
-        // 생성시 회전 처리
     }
 #endif
 }

@@ -2,21 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum PoolObjectType
 {
-    PlayerBullet = 0,
-    HitEffect,
-    ExplosionEffect,
-    PowerUp,          
-    EnemyWave,        
-    EnemyAsteroid,    
-    EnemyAsteroidMini,
-    EnemyBonus,       
-    EnemyCurve,       
-    EnemyBoss,        
-    EnemyBossBullet,  
-    EnemyBossMissile, 
+    PlayerBullet = 0,  
+    HitEffect,         
+    ExplosionEffect,   
+    PowerUp,           
+    EnemyWave,         
+    EnemyAsteroid,     
+    EnemyAsteroidMini, 
+    EnemyBonus,        
+    EnemyCurve,        
+    EnemyBoss,         
+    EnemyBossBullet,   
+    EnemyBossMissile,  
 }
 
 public class Factory : Singleton<Factory>
@@ -34,11 +33,13 @@ public class Factory : Singleton<Factory>
     BossBulletPool bossBullet;
     BossMissilePool bossMissile;
 
-
     protected override void OnInitialize()
     {
         base.OnInitialize();
 
+        // GetComponentInChildren : 나와 내 자식 오브젝트에서 컴포넌트 찾음
+
+        // 풀 컴포넌트 찾고, 찾으면 초기화하기
         bullet = GetComponentInChildren<BulletPool>();  
         if (bullet != null)
             bullet.Initialize();
@@ -46,10 +47,10 @@ public class Factory : Singleton<Factory>
         hit = GetComponentInChildren<HitEffectPool>();
         if ( hit != null )
             hit.Initialize();
-
+        
         explosion = GetComponentInChildren<ExplosionEffectPool>();
-        if (hit != null)
-            hit.Initialize();
+        if(explosion != null )
+            explosion.Initialize();
 
         powerUp = GetComponentInChildren<PowerUpPool>();
         if (powerUp != null)
@@ -80,7 +81,6 @@ public class Factory : Singleton<Factory>
         bossMissile= GetComponentInChildren<BossMissilePool>();
         if (bossMissile != null) bossMissile.Initialize();
     }
-
 
     public GameObject GetObject(PoolObjectType type, Vector3? position = null, Vector3? euler = null)
     {
@@ -155,7 +155,7 @@ public class Factory : Singleton<Factory>
 
     public Explosion GetExplosionEffect(Vector3 position, float angle = 0.0f)
     {
-        return explosion.GetObject(position, angle * Vector3.forward);
+        return explosion.GetObject(position, angle * Vector3.forward); 
     }
 
     public PowerUp GetPowerUp()
@@ -238,7 +238,7 @@ public class Factory : Singleton<Factory>
         return bossBullet.GetObject(position, angle * Vector3.forward);
     }
 
-    public BossMissile GetBossMissile()
+    public BossMissile GetBossMisslie()
     {
         return bossMissile.GetObject();
     }

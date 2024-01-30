@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class RecycleObject : MonoBehaviour
 {
+
     public Action onDisable;
 
     protected virtual void OnEnable()
     {
-        transform.localPosition = Vector3.zero;       
-        transform.localRotation = Quaternion.identity;
+        transform.localPosition = Vector3.zero;         
+        transform.localRotation = Quaternion.identity;  
 
         StopAllCoroutines();
     }
@@ -22,7 +23,7 @@ public class RecycleObject : MonoBehaviour
 
     protected IEnumerator LifeOver(float delay = 0.0f)
     {
-        yield return new WaitForSeconds(delay);
-        gameObject.SetActive(false);           
+        yield return new WaitForSeconds(delay); 
+        gameObject.SetActive(false);            
     }
 }

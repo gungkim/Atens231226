@@ -701,11 +701,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: c38b9e7b-d926-4c68-b56e-d0fd7929a3fb
+  cloudProjectId: 8df91bff-a3d3-4b38-9628-229eb2eaf991
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Project1(shooting)
-  organizationId: gungkim119
+  projectName: 02_Shooting
+  organizationId: go2665
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

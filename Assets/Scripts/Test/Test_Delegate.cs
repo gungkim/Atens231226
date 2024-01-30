@@ -59,7 +59,7 @@ public class Test_Delegate : TestBase
         aaa?.Invoke();
     }
 
-   
+    
     Action ccc;
     Action<int> ddd;    
     Action<int,int> eee;
@@ -71,6 +71,7 @@ public class Test_Delegate : TestBase
 
     void Test_Unity_Del()
     {
+
     }
 
     protected override void OnTest4(InputAction.CallbackContext context)

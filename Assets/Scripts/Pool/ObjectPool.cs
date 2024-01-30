@@ -16,14 +16,14 @@ public class ObjectPool<T> : MonoBehaviour where T : RecycleObject
     {
         if( pool == null )
         {
-            pool = new T[poolSize];             
-            readyQueue = new Queue<T>(poolSize);
+            pool = new T[poolSize];               
+            readyQueue = new Queue<T>(poolSize);  
 
             GenerateObjects(0, poolSize, pool);
         }
         else
         {
-            foreach( T obj in pool ) 
+            foreach( T obj in pool )  
             {
                 obj.gameObject.SetActive(false);
             }
@@ -32,18 +32,18 @@ public class ObjectPool<T> : MonoBehaviour where T : RecycleObject
 
     public T GetObject(Vector3? position = null, Vector3? eulerAngle = null)
     {
-        if (readyQueue.Count > 0)
+        if (readyQueue.Count > 0)          
         {
             T comp = readyQueue.Dequeue();  
             comp.gameObject.SetActive(true);
-            comp.transform.position = position.GetValueOrDefault();
-            comp.transform.Rotate(eulerAngle.GetValueOrDefault()); 
-            OnGetObject(comp);           
-            return comp;                 
+            comp.transform.position = position.GetValueOrDefault(); 
+            comp.transform.Rotate(eulerAngle.GetValueOrDefault());  
+            OnGetObject(comp);      
+            return comp;            
         }
         else
         {
-            ExpandPool();
+            ExpandPool();                          
             return GetObject(position, eulerAngle);
         }
     }
@@ -56,26 +56,25 @@ public class ObjectPool<T> : MonoBehaviour where T : RecycleObject
     {
         Debug.LogWarning($"{gameObject.name} 풀 사이즈 증가. {poolSize} -> {poolSize * 2}");
 
-        int newSize = poolSize * 2;    
-        T[] newPool = new T[newSize];  
-        for(int i = 0; i<poolSize; i++)
+        int newSize = poolSize * 2;     
+        T[] newPool = new T[newSize];   
+        for(int i = 0; i<poolSize; i++) 
         {
             newPool[i] = pool[i];
         }
 
-        GenerateObjects(poolSize, newSize, newPool); 
-
+        GenerateObjects(poolSize, newSize, newPool);   
+        
         pool = newPool;    
         poolSize = newSize;
     }
-
 
     void GenerateObjects(int start, int end, T[] results)
     {
         for (int i = start; i < end; i++)
         {
-            GameObject obj = Instantiate(originalPrefab, transform);  
-            obj.name = $"{originalPrefab.name}_{i}";    
+            GameObject obj = Instantiate(originalPrefab, transform); 
+            obj.name = $"{originalPrefab.name}_{i}";
 
             T comp = obj.GetComponent<T>();
             comp.onDisable += () => readyQueue.Enqueue(comp);
