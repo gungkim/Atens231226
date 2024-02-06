@@ -1,412 +1,216 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
 {
-    PlayerInputActions inputActions;
-
-    Vector3 inputDir = Vector3.zero;
-
-    public float moveSpeed = 0.01f;
-
-    Animator anim;
-    readonly int InputX_String = Animator.StringToHash("InputX");
-    Rigidbody2D rigid2d;
-    SpriteRenderer spriteRenderer;
-
-    public GameObject bulletPrefab;
-
-    public GameObject chargedbulletPrefab;
-
-    Transform[] fireTransforms;
-
-    GameObject fireFlash;
-
-    WaitForSeconds flashWait;
+    /// <summary>
+    /// 이동 방향(1 : 전진, -1 : 후진, 0 : 정지)
+    /// </summary>
+    float moveDirection = 0.0f;
 
     /// <summary>
-    /// 연사를 실행할 코루틴
+    /// 이동 속도
     /// </summary>
-    IEnumerator fireCoroutine;
+    public float moveSpeed = 5.0f;
 
     /// <summary>
-    /// 연사 시간 간격
+    /// 회전방향(1 : 우회전, -1 : 좌회전, 0 : 정지)
     /// </summary>
-    public float fireInterval = 0.5f;
-
-    int score = 0;
-
-    public int Score
-    {
-        get => score;   
-        private set     
-        {
-            if( score != value)
-            {
-                score = Math.Min(value,99999);
-                onScoreChange?.Invoke(score); 
-            }
-        }
-    }
+    float rotateDirection = 0.0f;
 
     /// <summary>
-    /// 점수가 변경되었을 때 알리는 델리게이트(파라메터: 변경된 점수)
+    /// 회전 속도
     /// </summary>
-    public Action<int> onScoreChange;
+    public float rotateSpeed = 180.0f;
 
     /// <summary>
-    /// 파워 3단계에서 파워업 아이템을 먹었을 때 얻는 보너스 점수
+    /// 애니메이터용 해시값
     /// </summary>
-    public int powerBonus = 1000;
+    readonly int IsMoveHash = Animator.StringToHash("IsMove");
+    readonly int UseHash = Animator.StringToHash("Use");
+    readonly int DieHash = Animator.StringToHash("Die");
 
     /// <summary>
-    /// 최소 파워 단계
+    /// 점프력
     /// </summary>
-    private const int MinPower = 1;
+    public float jumpPower = 6.0f;
 
     /// <summary>
-    /// 최대 파워 단계
+    /// 점프 중인지 아닌지 나타내는 변수
     /// </summary>
-    private const int MaxPower = 3;
+    bool isJumping = false;
 
     /// <summary>
-    /// 한번에 여러 총알을 쏠 때 총알 간의 간격
+    /// 점프 쿨 타임
     /// </summary>
-    private const float FireAngle = 30.0f;
+    public float jumpCoolTime = 5.0f;
 
     /// <summary>
-    /// 현재 파워
+    /// 남아있는 쿨타임
     /// </summary>
-    private int power = 1;
+    float jumpCoolRemains = -1.0f;
 
     /// <summary>
-    /// 파워 확인 및 설정용 프로퍼티
+    /// 점프가 가능한지 확인하는 프로퍼티(점프중이 아니고 쿨타임이 다 지났다.)
     /// </summary>
-    private int Power
-    {
-        get => power;
-        set
-        {
-            if( power != value) // 변경이 있을 때만 처리
-            {
-                power = value;
-                if( power > MaxPower)
-                {
-                    AddScore(powerBonus);   // 파워가 최대치를 벗어나면 보너스 점수 추가
-                }
+    bool IsJumpAvailable => !isJumping && (jumpCoolRemains < 0.0f);
 
-                power = Mathf.Clamp(power, MinPower, MaxPower); // 파워는 최소~최대 단계로만 존재
+    /// <summary>
+    /// 플레이어의 생존 여부
+    /// </summary>
+    bool isAlive = true;
 
-                RefreshFirePositions();     // 총알 발사 위치 조정
-            }
-        }
-    }
-
-    private int life = 3;
-
-    const int StartLife = 3;
-
-    private int Life
-    {
-        get => life;
-        set
-        {
-            if(life != value)
-            {
-                life = value;
-                if(IsAlive)
-                {
-                    OnHit(); 
-                }
-                else
-                {
-                    OnDie(); 
-                }
-
-                life = Mathf.Clamp(life, 0, StartLife);
-                onLifeChange?.Invoke(life);
-            }
-        }
-    }
-
-    private bool IsAlive => life > 0;
-
-    public Action<int> onLifeChange;
-
-    public float invincibleTime = 2.0f;
-
-    public Action<int> onDie;
-
+    /// <summary>
+    /// 플레이어의 사망을 알리는 델리게이트
+    /// </summary>
+    public Action onDie;
 
     private void Awake()
     {
-        inputActions = new PlayerInputActions();        
-        anim = GetComponent<Animator>();
-        // null; // 참조가 비어있다.
-        rigid2d = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        //inputActions = new PlayerInputActions();
+        inputActions = new();
+        rigid = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
 
-        // 게임 오브젝트 찾는 방법
-        // GameObject.Find("FirePosition"); // 이름으로 게임 오브젝트 찾기
-        // GameObject.FindAnyObjectByType<Transform>(); // 특정 컴포넌트를 가지고 있는 게임 오브젝트 찾기
-        // GameObject.FindFirstObjectByType<Transform>();  // 특정 컴포넌트를 가지고 있는 첫번째 게임 오브젝트 찾기
-        // GameObject.FindGameObjectWithTag("Player");  // 게임 오브젝트의 태그를 기준으로 찾는 함수
-        // GameObject.FindGameObjectsWithTag("Player"); // 특정 태그를 가진 모든 게임오브젝트를 찾아주는 함수
-
-        Transform fireRoot = transform.GetChild(0);
-        fireTransforms = new Transform[fireRoot.childCount];
-        for(int i = 0; i < fireTransforms.Length; i++)
-        {
-            fireTransforms[i] = fireRoot.GetChild(i);
-        }
-
-        fireFlash = transform.GetChild(1).gameObject;
-        flashWait = new WaitForSeconds(0.1f);
-
-        fireCoroutine = FireCoroutine();
-
+        ItemUseChecker checker = GetComponentInChildren<ItemUseChecker>();
+        checker.onItemUse += (interacable) => interacable.Use();
     }
 
     private void OnEnable()
     {
-        inputActions.Player.Enable();                      
-        inputActions.Player.Fire.performed += OnFireStart; 
-        inputActions.Player.Fire.canceled += OnFireEnd;    
-        inputActions.Player.Boost.performed += OnBoost;
-        inputActions.Player.Boost.canceled += OnBoost;
-        inputActions.Player.Move.performed += OnMove;
-        inputActions.Player.Move.canceled += OnMove;
+        inputActions.Player.Enable();
+        inputActions.Player.Move.performed += OnMoveInput;
+        inputActions.Player.Move.canceled += OnMoveInput;
+        inputActions.Player.Jump.performed += OnJumpInput;
+        inputActions.Player.Use.performed += OnUseInput;
     }
 
     private void OnDisable()
     {
-        inputActions.Player.Move.canceled -= OnMove;
-        inputActions.Player.Move.performed -= OnMove;
-        inputActions.Player.Boost.canceled -= OnBoost;
-        inputActions.Player.Boost.performed -= OnBoost;
-        inputActions.Player.Fire.canceled -= OnFireEnd;    
-        inputActions.Player.Fire.performed -= OnFireStart; 
-        inputActions.Player.Disable();                     
+        inputActions.Player.Use.performed -= OnUseInput;
+        inputActions.Player.Jump.performed -= OnJumpInput;
+        inputActions.Player.Move.canceled -= OnMoveInput;
+        inputActions.Player.Move.performed -= OnMoveInput;
+        inputActions.Player.Disable();
     }
-    
-    private void Start()
+
+    private void OnMoveInput(InputAction.CallbackContext context)
     {
-        Power = 1;
-        Life = StartLife;
+        SetInput(context.ReadValue<Vector2>(), !context.canceled);
+    }
+
+    private void OnJumpInput(InputAction.CallbackContext _)
+    {
+        Jump();
+    }
+
+    private void OnUseInput(InputAction.CallbackContext context)
+    {
+        animator.SetTrigger(UseHash);
+    }
+
+    private void Update()
+    {
+        jumpCoolRemains -= Time.deltaTime;
     }
 
     private void FixedUpdate()
     {
-        if( IsAlive )
-        {
-            rigid2d.MovePosition(rigid2d.position + (Vector2)(Time.fixedDeltaTime * moveSpeed * inputDir));
-        }
-
+        Move();
+        Rotate();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            Life--;
-        }
-        else if( collision.gameObject.CompareTag("PowerUp") )
-        {
-            Power++;
-            collision.gameObject.SetActive(false);
+            isJumping = false;
         }
     }
 
     /// <summary>
-    /// Fire액션이 발동했을 때 실행 시킬 함수
+    /// 이동 입력 처리용 함수
     /// </summary>
-    /// <param name="context">입력 관련 정보가 들어있는 구조체 변수</param>
-    private void OnFireStart(InputAction.CallbackContext _)
+    /// <param name="input">입력된 방향</param>
+    /// <param name="isMove">이동 중이면 true, 이동 중이 아니면 false</param>
+    void SetInput(Vector2 input, bool isMove)
     {
-        //if(context.performed)   // 지금 입력이 눌렀다
-        //{
-        //Debug.Log("OnFireStart : 눌려짐");
-        //Fire(fireTransform.position);
-        //}
-        //if(context.canceled)    // 지금 입력이 떨어졌다
-        //{
-        //    Debug.Log("OnFireStart : 떨어짐");
-        //}        
-        StartCoroutine(fireCoroutine);  // 연사시작
+        rotateDirection = input.x;
+        moveDirection = input.y;
+
+        animator.SetBool(IsMoveHash, isMove);
     }
 
-    private void OnFireEnd(InputAction.CallbackContext _)
+    void Move()
     {
-        StopCoroutine(fireCoroutine);   // 연사 중지
+        rigid.MovePosition(rigid.position + Time.fixedDeltaTime * moveSpeed * moveDirection * transform.forward);
     }
-
     /// <summary>
-    /// 연사용 코루틴
+    /// 실제 회전 처리 함수(FixedUpdate에서 사용)
     /// </summary>
-    /// <returns></returns>
-    IEnumerator FireCoroutine()
+    void Rotate()
     {
-        while (true)
-        {
-            for (int i = 0; i < Power; i++)
-            {
-                Fire(fireTransforms[i]);                   // 총알 한발 쏘기
-            }
-            yield return new WaitForSeconds(fireInterval);  // 인터벌만큼 기다리기
-        }
-    }
+        // 이번 fixedUpdate에서 추가로 회전할 회전(delta)
+        Quaternion rotate = Quaternion.AngleAxis(Time.fixedDeltaTime * rotateSpeed * rotateDirection, transform.up);
 
+        // 현재 회전에서 rotate만큼 추가로 회전
+        rigid.MoveRotation(rigid.rotation * rotate);
+
+        // 회전을 표현하는 클래스 : Quaternion
+        // Quaternion.Euler() : x, y, z 축으로 얼마만큼 회전 시킬 것인지를 파라메터로 받아서 회전을 생성하는 함수
+        // Quaternion.AngleAxis() : 특정 축을 기준으로 몇 도만큼 회전 시킬지를 파라메터로 받아서 회전을 생성하는 함수
+        // Quaternion.FromToRotation() : 시작 방향에서 도착 방향이 될 수 있는 회전을 생성하는 함수
+        // Quaternion.Lerp() : 시작 회전에서 목표 회전으로 보간하는 함수
+        // Quaternion.Slerp(): 시작 회전에서 목표 회전으로 보간하는 함수(곡선으로 보간)
+        // Quaternion.LookRotation() : 특정 방향을 바라보는 회전을 만들어주는 함수
+
+        // Quaternion.identity;    아무런 회전도 하지 않았다.
+        // Quaternion.Inverse() : 역회전을 계산하는 함수
+
+        // Quaternion.RotateTowards() : from에서 to로 회전 회전 시키는 함수. 한번 실행될 때마다 maxDegreesDelta만 큼 회전.
+
+        // transform.RotateAround : 특정 위치에서 특정 축을 기준으로 회전하기
+    }
+    
     /// <summary>
-    /// 총알을 하나 발사하는 함수
+    /// 실제 점프 처리를 하는 함수
     /// </summary>
-    /// <param name="fireTransform">총알이 발사될 트랜스폼</param>
-    void Fire(Transform fireTransform)
+    void Jump()
     {
-        //플래시 켜고 끄기
-        StartCoroutine(FlashEffect());
-
-        //Instantiate(bulletPrefab, transform); // 발사된 총알도 플레이어의 움직임에 영향을 받는다.
-        //Instantiate(bulletPrefab, position, Quaternion.identity);
-
-        Factory.Instance.GetBullet(fireTransform.position, fireTransform.eulerAngles.z);   // 팩토리를 이용해 총알 생성
-    }
-
-    IEnumerator FlashEffect()
-    {
-        fireFlash.SetActive(true); 
-
-        yield return flashWait;    
-
-        fireFlash.SetActive(false);
-    }
-
-    private void OnBoost(InputAction.CallbackContext context)
-    {
-        if (context.performed)   // 지금 입력이 눌렀다
+        if (IsJumpAvailable) // 점프가 가능할 때만 점프
         {
-            Debug.Log("OnBoost : 눌려짐");
-        }
-        if (context.canceled)    // 지금 입력이 떨어졌다
-        {
-            Debug.Log("OnBoost : 떨어짐");
+            rigid.AddForce(jumpPower * Vector3.up, ForceMode.Impulse);  // 위쪽으로 jumpPower만큼 힘을 더하기
+            jumpCoolRemains = jumpCoolTime; // 쿨타임 초기화
+            isJumping = true;               // 점프했다고 표시
         }
     }
-
-    private void OnMove(InputAction.CallbackContext context)
-    {
-        inputDir = context.ReadValue<Vector2>();
-
-        anim.SetFloat(InputX_String, inputDir.x);
-    }
-
     /// <summary>
-    /// 점수를 추가해주는 변수
+    /// 사망 처리용 함수
     /// </summary>
-    /// <param name="getScore">새로 얻은 점수</param>
-    public void AddScore(int getScore)
+    public void Die()
     {
-        Score += getScore;
-    }
-
-    /// <summary>
-    /// 파워 단계에 따라 총알 발사 위치 조정
-    /// </summary>
-    private void RefreshFirePositions()
-    {
-        for (int i = 0; i < MaxPower; i++)
+        if (isAlive)
         {
-            if (i < Power)   // 파워 단계에 맞게 사용되는 부분 조정
-            {
-                // 1: 0도
-                // 2: +15도, -15도        => 30도 한번
-                // 3: +30도, 0도, -30도   => 30도 두번
+            Debug.Log("죽었음");
 
-                float startAngle = (Power - 1) * (FireAngle * 0.5f);    // power에 따라 시작각도를 다르게 설정
-                float angleDelta = i * -FireAngle;                      // 30도씩 단계별로 회전
-                fireTransforms[i].rotation = Quaternion.Euler(0, 0, startAngle + angleDelta);
+            // 죽는 애니메이션이 나온다.
+            animator.SetTrigger(DieHash);
 
-                fireTransforms[i].localPosition = Vector3.zero;         // 초기화
-                fireTransforms[i].Translate(0.5f, 0.0f, 0.0f);          // 살짝 오른쪽으로 옮기기(로컬 기준)
+            // 더 이상 조종이 안되어야 한다.
+            inputActions.Player.Disable();
 
-                fireTransforms[i].gameObject.SetActive(true);           // 활성화
-            }
-            else
-            {
-                fireTransforms[i].gameObject.SetActive(false);          // 비활성화
-            }
+            // 대굴대굴 구른다.(뒤로 넘어가면서 y축으로 스핀을 먹는다.)
+            rigid.constraints = RigidbodyConstraints.None;  // 물리 잠금을 전부 해제하기
+            Transform head = transform.GetChild(0);
+            rigid.AddForceAtPosition(-transform.forward, head.position, ForceMode.Impulse);
+            rigid.AddTorque(transform.up * 1.5f, ForceMode.Impulse);
+
+            // 죽었다고 신호보내기(onDie 델리게이트 실행)
+            onDie?.Invoke();
+
+            isAlive = false;
         }
     }
-
-    void OnHit()
-    {
-        Power--;
-        StartCoroutine(InvinvibleMode());
-    }
-
-
-    IEnumerator InvinvibleMode()
-    {
-        gameObject.layer = LayerMask.NameToLayer("Invincible");
-
-        float timeElapsed = 0.0f;
-        while (timeElapsed < invincibleTime)
-        {
-            timeElapsed += Time.deltaTime;
-
-            float alpha = (Mathf.Cos(timeElapsed * 30.0f) + 1.0f) * 0.5f;
-            spriteRenderer.color = new Color(1, 1, 1, alpha);            
-
-            yield return null;
-        }
-
-        gameObject.layer = LayerMask.NameToLayer("Player");
-        spriteRenderer.color = Color.white;                
-
-    }
-
-    void OnDie()
-    {
-        Debug.Log("플레이어가 죽었다.");
-
-        Collider2D body = GetComponent<Collider2D>();
-        body.enabled = false;  
-
-        Factory.Instance.GetExplosionEffect(transform.position);
-
-        inputActions.Player.Disable();
-
-        rigid2d.gravityScale = 1.0f;
-        rigid2d.freezeRotation = false;
-        rigid2d.AddTorque(10000);
-        rigid2d.AddForce(Vector2.left * 10.0f, ForceMode2D.Impulse);
-
-        onDie?.Invoke(Score);
-    }
-
-
-#if UNITY_EDITOR
-    public void Test_PowerUp()
-    {
-        Power++;
-    }
-
-    public void Test_PowerDown()
-    {
-        Power--;
-    }
-
-    public void Test_Die()
-    {
-        Life = 0;
-    }
-
-    public void Test_SetScore(int score)
-    {
-        Score = score;
-    }
-#endif
 }
