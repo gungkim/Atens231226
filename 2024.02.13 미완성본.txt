@@ -1,0 +1,46 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Net.NetworkInformation;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class PlatformTrigger : PlatformBase
+{
+
+    Player target;
+
+    bool isMoving = false;
+
+    bool IsTargetArrive = false;
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (transform == GameManager.Instance.Player.transform)
+        {
+            target = GameManager.Instance.Player;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (transform == GameManager.Instance.Player.transform)
+        {
+            target = null;
+        }
+    }
+
+    private void Update()
+    {
+        PlatformMove();
+    }
+
+    private void PlatformMove();
+    {
+        bool IsMoving = false;
+        if(target != null)
+        {
+
+        }
+    }   
+}
