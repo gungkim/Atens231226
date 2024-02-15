@@ -60,7 +60,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 14
+  m_Constraints: 64
   m_CollisionDetection: 0
 --- !u!114 &1640376561309731888
 MonoBehaviour:
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetWaypoints: {fileID: 0}
-  moveSpeed: 5
+  moveSpeed: 2
   spinSpeed: 720
 --- !u!65 &8688670159400068406
 BoxCollider:

@@ -24,7 +24,7 @@ public class Blade : WaypointUser
 
     private void Update()
     {
-        bladeMesh.Rotate(new Vector3(0, 0, spinSpeed * Time.deltaTime));
+        bladeMesh.Rotate(Time.deltaTime * spinSpeed * Vector3.right);
     }
 
     private void OnCollisionEnter(Collision collision)
