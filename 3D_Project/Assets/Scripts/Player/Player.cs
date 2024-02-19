@@ -10,19 +10,10 @@ public class Player : MonoBehaviour, IAlive
     Rigidbody rigid;
     Animator animator;
 
-    /// <summary>
-    /// 이동 방향(1 : 전진, -1 : 후진, 0 : 정지)
-    /// </summary>
     float moveDirection = 0.0f;
 
-    /// <summary>
-    /// 이동 속도(기준 속도)
-    /// </summary>
     public float moveSpeed = 5.0f;
 
-    /// <summary>
-    /// 현재 이동 속도
-    /// </summary>
     float currentMoveSpeed = 5.0f;
 
     /// <summary>
