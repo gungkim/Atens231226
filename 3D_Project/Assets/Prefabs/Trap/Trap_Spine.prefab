@@ -111,7 +111,7 @@ Transform:
   m_GameObject: {fileID: 577038651205993434}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.577, y: 1.359, z: 5.88}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -133,6 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d215bd6d0990a2c46b95eaf1c7f44ddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetWaypoints: {fileID: 0}
+  moveSpeed: 5
 --- !u!54 &1110569143071303983
 Rigidbody:
   m_ObjectHideFlags: 0

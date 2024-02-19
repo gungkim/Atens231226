@@ -2,21 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sawblade : TrapManual
+public class Sawblade : WaypointUser
 {
-    public float autoCloseTime = 3.0f;
+    public float spinSpeed = 720.0f;
+    Transform bladeMesh;
 
-    public new void Use()   // 함수에 new 키워드가 붙으면 부모쪽의 함수를 무시한다.
+    protected override Transform Target
     {
-        Open();
-        StopAllCoroutines();
-        StartCoroutine(AutoClose());
+        set
+        {
+            base.Target = value;
+            transform.position = Vector3.forward;
+        }
     }
 
-    IEnumerator AutoClose()
+    private void Awake()
     {
-        yield return new WaitForSeconds(autoCloseTime);
-        Close();
+        bladeMesh = transform;
+
     }
 
+    private void Update()
+    {
+        bladeMesh.Rotate(Time.deltaTime * spinSpeed * Vector3.forward);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        IAlive live = collision.gameObject.GetComponent<IAlive>();
+        if (live != null)
+        {
+            live.Die();
+        }
+    }
 }
