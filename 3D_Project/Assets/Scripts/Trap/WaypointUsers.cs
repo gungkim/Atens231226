@@ -72,9 +72,9 @@ public class WaypointUser : MonoBehaviour
     protected virtual void OnMove()
     {
         // 이동처리
-        moveDelta = Time.fixedDeltaTime * moveSpeed * moveDirection;
-        transform.Translate(moveDelta, Space.World);
-        //transform.position = Vector3.MoveTowards(transform.position, Target.position, Time.fixedDeltaTime * moveSpeed);
+        //moveDelta = Time.fixedDeltaTime * moveSpeed * moveDirection;
+        //transform.Translate(moveDelta, Space.World);
+        transform.position = Vector3.MoveTowards(transform.position, Target.position, Time.fixedDeltaTime * moveSpeed);
 
         if (IsArrived)   // true면 웨이포인트 지점에 도착
         {

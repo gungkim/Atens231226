@@ -26,12 +26,12 @@ public class Spine : WaypointUser
         
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        IAlive live = collision.gameObject.GetComponent<IAlive>();
+        IAlive live = other.GetComponent<IAlive>();
         if (live != null)
         {
-            live.Die();
+            live.Die(); // 죽을 수 있는 오브젝트는 죽이기
         }
     }
 }
