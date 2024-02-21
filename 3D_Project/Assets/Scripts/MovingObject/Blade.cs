@@ -12,7 +12,8 @@ public class Blade : WaypointUser
         set
         {
             base.Target = value;
-            transform.LookAt(Target);
+            //transform.LookAt(Target);
+            transform.right = Target.position - transform.position;
         }
     }
 
@@ -24,7 +25,7 @@ public class Blade : WaypointUser
 
     private void Update()
     {
-        bladeMesh.Rotate(Time.deltaTime * spinSpeed * Vector3.forward);
+        bladeMesh.Rotate(0,0,Time.deltaTime * spinSpeed);
     }
 
     private void OnCollisionEnter(Collision collision)
