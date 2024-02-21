@@ -4,23 +4,19 @@ using UnityEngine;
 
 public enum PoolObjectType
 {
-    Bullet = 0,
-    Arrow = 1,
+    None = 0,
 }
 
 public class Factory : Singleton<Factory>
 {
-    BulletPool bulletPool;
-    ArrowPool arrowPool;
+    //BulletPool bulletPool;
 
     protected override void OnInitialize()
     {
         base.OnInitialize();
 
-        bulletPool = GetComponentInChildren<BulletPool>();
-        if (bulletPool != null) bulletPool.Initialize();
-        arrowPool = GetComponentInChildren<ArrowPool>();
-        if (arrowPool != null) arrowPool.Initialize();
+        //bulletPool = GetComponentInChildren<BulletPool>();
+        //if (bulletPool != null) bulletPool.Initialize();
     }
  
     /// <summary>
@@ -33,45 +29,32 @@ public class Factory : Singleton<Factory>
     public GameObject GetObject(PoolObjectType type, Vector3? position = null, Vector3? euler = null)
     {
         GameObject result = null;
-        switch (type)
-        {
-            case PoolObjectType.Bullet:
-                result = bulletPool.GetObject(position, euler).gameObject;
-                break;
-            case PoolObjectType.Arrow:
-                result = arrowPool.GetObject(position, euler).gameObject;
-                break;
-        }
+        //switch (type)
+        //{
+        //    //case PoolObjectType.Bullet:
+        //    //    result = bulletPool.GetObject(position, euler).gameObject;
+        //    //    break;
+        //}
 
         return result;
     }
 
-    /// <summary>
-    /// 총알 하나 가져오는 함수
-    /// </summary>
-    /// <returns>활성화된 총알</returns>
-    public Bullet GetBullet()
-    {
-        return bulletPool.GetObject();
-    }
+    ///// <summary>
+    ///// 총알 하나 가져오는 함수
+    ///// </summary>
+    ///// <returns>활성화된 총알</returns>
+    //public Bullet GetBullet()
+    //{
+    //    return bulletPool.GetObject();
+    //}
 
-    public Arrow GetArrow()
-    {
-        return arrowPool.GetObject();
-    }
-
-    /// <summary>
-    /// 총알 하나 가져와서 특정 위치에 배치하는 함수
-    /// </summary>
-    /// <param name="position">배치될 위치</param>
-    /// <returns>활성화된 총알</returns>
-    public Bullet GetBullet(Vector3 position, float angle = 0.0f)
-    {
-        return bulletPool.GetObject(position, angle * Vector3.forward);
-    }
-
-    public Arrow GetArrow(Vector3 position, float angle = 0.0f)
-    {
-        return arrowPool.GetObject(position, angle * Vector3.forward);
-    }
+    ///// <summary>
+    ///// 총알 하나 가져와서 특정 위치에 배치하는 함수
+    ///// </summary>
+    ///// <param name="position">배치될 위치</param>
+    ///// <returns>활성화된 총알</returns>
+    //public Bullet GetBullet(Vector3 position, float angle = 0.0f)
+    //{
+    //    return bulletPool.GetObject(position, angle * Vector3.forward);
+    //}
 }
