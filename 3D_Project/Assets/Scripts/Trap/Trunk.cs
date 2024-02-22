@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
-public class Spine : WaypointUser
+public class Trunk : WaypointUser
 {
-    Transform spineMesh;
-    
+    Transform trunkMesh;
+
     protected override Transform Target
     {
         set
@@ -18,12 +17,7 @@ public class Spine : WaypointUser
 
     private void Awake()
     {
-        spineMesh = transform;
-    }
-
-    private void Update()
-    {
-        
+        trunkMesh = transform;
     }
 
     private void OnTriggerEnter(Collider other)
