@@ -20,7 +20,6 @@ public class GameManager : Singleton<GameManager>
         player = FindAnyObjectByType<Player>();
     }
 
-    bool isClear = false;
 
 
 }
