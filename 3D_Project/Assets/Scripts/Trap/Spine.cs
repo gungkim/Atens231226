@@ -3,28 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
-public class Spine : WaypointUser
+public class Spine : MonoBehaviour
 {
-    Transform spineMesh;
-    
-    protected override Transform Target
-    {
-        set
-        {
-            base.Target = value;
-            transform.right = Target.position - transform.position;
-        }
-    }
 
-    private void Awake()
-    {
-        spineMesh = transform;
-    }
-
-    private void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider other)
     {

@@ -1,24 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Trunk : WaypointUser
 {
-    Transform trunkMesh;
 
-    protected override Transform Target
-    {
-        set
-        {
-            base.Target = value;
-            transform.right = Target.position - transform.position;
-        }
-    }
 
-    private void Awake()
-    {
-        trunkMesh = transform;
-    }
 
     private void OnTriggerEnter(Collider other)
     {
