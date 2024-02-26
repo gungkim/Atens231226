@@ -39,6 +39,8 @@ public class Player : MonoBehaviour, IAlive
     /// 애니메이터용 해시값
     /// </summary>
     readonly int IsMoveHash = Animator.StringToHash("IsMove");
+    readonly int UseHash = Animator.StringToHash("Use");
+    readonly int JumpHash = Animator.StringToHash("Jump");
     readonly int DieHash = Animator.StringToHash("Die");
 
     /// <summary>
@@ -177,10 +179,12 @@ public class Player : MonoBehaviour, IAlive
         inputActions.Player.Move.performed += OnMoveInput;
         inputActions.Player.Move.canceled += OnMoveInput;
         inputActions.Player.Jump.performed += OnJumpInput;
+        inputActions.Player.Use.performed += OnUseInput;
     }
 
     private void OnDisable()
     {
+        inputActions.Player.Use.performed -= OnUseInput;
         inputActions.Player.Jump.performed -= OnJumpInput;
         inputActions.Player.Move.canceled -= OnMoveInput;
         inputActions.Player.Move.performed -= OnMoveInput;
@@ -195,6 +199,12 @@ public class Player : MonoBehaviour, IAlive
     private void OnJumpInput(InputAction.CallbackContext _)
     {
         Jump();
+
+    }
+
+    private void OnUseInput(InputAction.CallbackContext context)
+    {
+        Use();
     }
 
     private void Update()
@@ -207,6 +217,7 @@ public class Player : MonoBehaviour, IAlive
     {
         Move();
         Rotate();
+        Use();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -223,16 +234,6 @@ public class Player : MonoBehaviour, IAlive
         {
             GroundCount--;
         }
-    }
-
-
-    /// <summary>
-    /// 움직이는 물체에 탑승했을 때 연결될 함수
-    /// </summary>
-    /// <param name="delta">움직인 양</param>
-    void OnRideMovingObject(Vector3 delta)
-    {
-        rigid.MovePosition(rigid.position + delta);
     }
 
     /// <summary>
@@ -290,11 +291,17 @@ public class Player : MonoBehaviour, IAlive
     {
         if (IsJumpAvailable) // 점프가 가능할 때만 점프
         {
-            rigid.AddForce(jumpPower * Vector3.up, ForceMode.Impulse);  // 위쪽으로 jumpPower만큼 힘을 더하기
+            animator.SetTrigger(JumpHash);
             JumpCoolRemains = jumpCoolTime; // 쿨타임 초기화
             //GroundCount = 0;                // 모든 땅에서 떨어졌음
         }
     }
+
+    void Use()
+    {
+        animator.SetTrigger(UseHash);
+    }
+
 
     /// <summary>
     /// 사망 처리용 함수
@@ -311,15 +318,8 @@ public class Player : MonoBehaviour, IAlive
             // 더 이상 조종이 안되어야 한다.
             inputActions.Player.Disable();
 
-            // 대굴대굴 구른다.(뒤로 넘어가면서 y축으로 스핀을 먹는다.)
-            rigid.constraints = RigidbodyConstraints.None;  // 물리 잠금을 전부 해제하기
-            Transform head = transform.GetChild(0);
-            rigid.AddForceAtPosition(-transform.forward, head.position, ForceMode.Impulse);
-            rigid.AddTorque(transform.up * 1.5f, ForceMode.Impulse);
-
             // 죽었다고 신호보내기(onDie 델리게이트 실행)
             onDie?.Invoke();
-
 
             isAlive = false;
         }

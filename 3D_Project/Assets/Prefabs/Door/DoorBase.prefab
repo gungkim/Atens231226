@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &491323102798322220
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2812364619339462774}
+  m_Layer: 0
+  m_Name: Hinge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2812364619339462774
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491323102798322220}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.8, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3300271950927760051}
+  m_Father: {fileID: 4319998754682710593}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &904664843377453187
 GameObject:
   m_ObjectHideFlags: 0
@@ -28,11 +60,11 @@ Transform:
   m_GameObject: {fileID: 904664843377453187}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.7, y: 0, z: 0}
+  m_LocalPosition: {x: -0.100000024, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4319998754682710593}
+  m_Father: {fileID: 2812364619339462774}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4658536802742312211
 MeshFilter:
@@ -119,7 +151,7 @@ GameObject:
   - component: {fileID: 7703346853644356121}
   - component: {fileID: 9006114323982702028}
   - component: {fileID: 824609404618949143}
-  - component: {fileID: 7893032753689338544}
+  - component: {fileID: 1940677413361540382}
   m_Layer: 0
   m_Name: DoorBase
   m_TagString: Untagged
@@ -140,8 +172,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3300271950927760051}
   - {fileID: 5342728411081536517}
+  - {fileID: 2812364619339462774}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2858732095361907514
@@ -226,7 +258,7 @@ Animator:
   m_GameObject: {fileID: 4131929545532941450}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 50fa9f641f596b54eb5c1c8f45d44473, type: 2}
+  m_Controller: {fileID: 22100000, guid: a8aeaad47d905194ca6cc13dca0453ef, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -237,7 +269,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7893032753689338544
+--- !u!114 &1940677413361540382
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,7 +278,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4131929545532941450}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab95150a305cf624d953300ce729ac28, type: 3}
+  m_Script: {fileID: 11500000, guid: 03356dc6a50b49542a741cdcb428406c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   key: {fileID: 0}
