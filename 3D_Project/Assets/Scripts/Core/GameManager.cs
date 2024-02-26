@@ -19,4 +19,7 @@ public class GameManager : Singleton<GameManager>
     {
         player = FindAnyObjectByType<Player>();
     }
+
+
+
 }

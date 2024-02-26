@@ -20,7 +20,6 @@ public class DeathSceneController : MonoBehaviour
     private void Start()
     {
         player = GameManager.Instance.Player;
-        player.onDie += DeathSceneStart;
     }
 
     private void DeathSceneStart()

@@ -10,10 +10,19 @@ public class Player : MonoBehaviour, IAlive
     Rigidbody rigid;
     Animator animator;
 
+    /// <summary>
+    /// 이동 방향(1 : 전진, -1 : 후진, 0 : 정지)
+    /// </summary>
     float moveDirection = 0.0f;
 
+    /// <summary>
+    /// 이동 속도(기준 속도)
+    /// </summary>
     public float moveSpeed = 5.0f;
 
+    /// <summary>
+    /// 현재 이동 속도
+    /// </summary>
     float currentMoveSpeed = 5.0f;
 
     /// <summary>
@@ -30,7 +39,6 @@ public class Player : MonoBehaviour, IAlive
     /// 애니메이터용 해시값
     /// </summary>
     readonly int IsMoveHash = Animator.StringToHash("IsMove");
-    readonly int UseHash = Animator.StringToHash("Use");
     readonly int DieHash = Animator.StringToHash("Die");
 
     /// <summary>
@@ -126,13 +134,16 @@ public class Player : MonoBehaviour, IAlive
         get => lifeTime;
         set
         {
-            lifeTime = value;
-            if( lifeTime < 0.0f )
+            if (isPlaying)   // 플레이 중일 때만 수명 감소
             {
-                lifeTime = 0.0f;    // 수명이 다 되었으면 0.0으로 숫자 정리 및 사망처리
-                Die();
+                lifeTime = value;
+                if (lifeTime < 0.0f)
+                {
+                    lifeTime = 0.0f;    // 수명이 다 되었으면 0.0으로 숫자 정리 및 사망처리
+                    Die();
+                }
+                onLifeTimeChange?.Invoke(lifeTime / startLifeTime);   // 현재 수명 비율을 알림
             }
-            onLifeTimeChange?.Invoke( lifeTime / startLifeTime );   // 현재 수명 비율을 알림
         }
     }
 
@@ -140,6 +151,11 @@ public class Player : MonoBehaviour, IAlive
     /// 수명이 변경될 때 실행될 델리게이트
     /// </summary>
     public Action<float> onLifeTimeChange;
+
+    /// <summary>
+    /// 게임 플레이 중인지 확인용 변수
+    /// </summary>
+    bool isPlaying = true;
 
     private void Awake()
     {
@@ -181,11 +197,6 @@ public class Player : MonoBehaviour, IAlive
         Jump();
     }
 
-    private void OnUseInput(InputAction.CallbackContext context)
-    {
-        animator.SetTrigger(UseHash);
-    }
-
     private void Update()
     {
         JumpCoolRemains -= Time.deltaTime;
@@ -195,12 +206,12 @@ public class Player : MonoBehaviour, IAlive
     private void FixedUpdate()
     {
         Move();
-       // Rotate();           
+        Rotate();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
             GroundCount++;
         }
@@ -210,27 +221,10 @@ public class Player : MonoBehaviour, IAlive
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            GroundCount--;            
+            GroundCount--;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        PlatformBase platform = other.GetComponent<PlatformBase>();
-        if(platform != null)
-        {
-            platform.onMove += OnRideMovingObject;  // 플랫폼 트리거에 들어갔을 때 함수 연결
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        PlatformBase platform = other.GetComponent<PlatformBase>();
-        if (platform != null)
-        {
-            platform.onMove -= OnRideMovingObject;  // 플랫폼 트리거에서 나왔을 때 연결 해제
-        }
-    }
 
     /// <summary>
     /// 움직이는 물체에 탑승했을 때 연결될 함수
@@ -259,19 +253,19 @@ public class Player : MonoBehaviour, IAlive
     /// </summary>
     void Move()
     {
-        rigid.MovePosition(rigid.position + Time.fixedDeltaTime * currentMoveSpeed * moveDirection * transform.forward);     
+        rigid.MovePosition(rigid.position + Time.fixedDeltaTime * currentMoveSpeed * moveDirection * transform.forward);
     }
 
     /// <summary>
     /// 실제 회전 처리 함수(FixedUpdate에서 사용)
     /// </summary>
-    //void Rotate()
-    //{
+    void Rotate()
+    {
         // 이번 fixedUpdate에서 추가로 회전할 회전(delta)
-        //Quaternion rotate = Quaternion.AngleAxis(Time.fixedDeltaTime * rotateSpeed * rotateDirection, transform.up);
+        Quaternion rotate = Quaternion.AngleAxis(Time.fixedDeltaTime * rotateSpeed * rotateDirection, transform.up);
 
         // 현재 회전에서 rotate만큼 추가로 회전
-        //rigid.MoveRotation(rigid.rotation * rotate);
+        rigid.MoveRotation(rigid.rotation * rotate);
 
         // 회전을 표현하는 클래스 : Quaternion
         // Quaternion.Euler() : x, y, z 축으로 얼마만큼 회전 시킬 것인지를 파라메터로 받아서 회전을 생성하는 함수
@@ -287,14 +281,14 @@ public class Player : MonoBehaviour, IAlive
         // Quaternion.RotateTowards() : from에서 to로 회전 회전 시키는 함수. 한번 실행될 때마다 maxDegreesDelta만 큼 회전.
 
         // transform.RotateAround : 특정 위치에서 특정 축을 기준으로 회전하기
-    //}
+    }
 
     /// <summary>
     /// 실제 점프 처리를 하는 함수
     /// </summary>
     void Jump()
     {
-        if(IsJumpAvailable) // 점프가 가능할 때만 점프
+        if (IsJumpAvailable) // 점프가 가능할 때만 점프
         {
             rigid.AddForce(jumpPower * Vector3.up, ForceMode.Impulse);  // 위쪽으로 jumpPower만큼 힘을 더하기
             JumpCoolRemains = jumpCoolTime; // 쿨타임 초기화
@@ -307,7 +301,7 @@ public class Player : MonoBehaviour, IAlive
     /// </summary>
     public void Die()
     {
-        if(isAlive)
+        if (isAlive)
         {
             Debug.Log("죽었음");
 
@@ -325,6 +319,7 @@ public class Player : MonoBehaviour, IAlive
 
             // 죽었다고 신호보내기(onDie 델리게이트 실행)
             onDie?.Invoke();
+
 
             isAlive = false;
         }
@@ -345,5 +340,17 @@ public class Player : MonoBehaviour, IAlive
     public void RestoreMoveSpeed()
     {
         currentMoveSpeed = moveSpeed;
+    }
+
+    /// <summary>
+    /// 게임 클리어가 되었을 때 플레이어가 처리해야 할 일을 수항하는 함수
+    /// </summary>
+    private void OnGameClear()
+    {
+        // 수명 감소 정지
+        isPlaying = false;
+
+        // 더 이상 조종이 안되어야 한다.
+        inputActions.Player.Disable();
     }
 }
