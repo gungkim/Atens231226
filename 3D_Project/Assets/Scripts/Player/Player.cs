@@ -84,7 +84,7 @@ public class Player : MonoBehaviour, IAlive
     /// <summary>
     /// 점프 쿨 타임
     /// </summary>
-    public float jumpCoolTime = 5.0f;
+    public float jumpCoolTime = 2.0f;
 
     /// <summary>
     /// 남아있는 쿨타임
@@ -292,6 +292,7 @@ public class Player : MonoBehaviour, IAlive
         if (IsJumpAvailable) // 점프가 가능할 때만 점프
         {
             animator.SetTrigger(JumpHash);
+            rigid.AddForce(jumpPower * Vector3.up, ForceMode.Impulse);
             JumpCoolRemains = jumpCoolTime; // 쿨타임 초기화
             //GroundCount = 0;                // 모든 땅에서 떨어졌음
         }
