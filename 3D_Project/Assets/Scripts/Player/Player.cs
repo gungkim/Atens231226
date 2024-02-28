@@ -165,6 +165,9 @@ public class Player : MonoBehaviour, IAlive
         inputActions = new();
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+
+        ItemUseChecker checker = GetComponentInChildren<ItemUseChecker>();
+        checker.onItemUse += (interacable) => interacable.Use();
     }
 
     void Start()
