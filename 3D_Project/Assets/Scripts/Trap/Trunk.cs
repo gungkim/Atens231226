@@ -5,9 +5,6 @@ using UnityEngine.UIElements;
 
 public class Trunk : WaypointUser
 {
-
-
-
     private void OnTriggerEnter(Collider other)
     {
         IAlive live = other.GetComponent<IAlive>();

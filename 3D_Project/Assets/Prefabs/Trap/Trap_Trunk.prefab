@@ -43,7 +43,9 @@ GameObject:
   - component: {fileID: 8709881177038493372}
   - component: {fileID: 3568597469232485538}
   - component: {fileID: 3934278978006988283}
-  - component: {fileID: 8274086805865402307}
+  - component: {fileID: 3097292545295764513}
+  - component: {fileID: 9009691034069297813}
+  - component: {fileID: 7020779223391910217}
   m_Layer: 0
   m_Name: Trap_Trunk
   m_TagString: Untagged
@@ -136,11 +138,11 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.35
+  m_Radius: 0.4
   m_Height: 2.43
   m_Direction: 2
   m_Center: {x: 0.14, y: -0.21, z: 0}
---- !u!54 &8274086805865402307
+--- !u!54 &3097292545295764513
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,9 +163,44 @@ Rigidbody:
     serializedVersion: 2
     m_Bits: 0
   m_ImplicitCom: 0
-  m_ImplicitTensor: 1
+  m_ImplicitTensor: 0
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!95 &9009691034069297813
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8453039189332927699}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 38184b9a6a7bc82439876ed111a9568d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7020779223391910217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8453039189332927699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 541181f6917f50f4ca9dce700e4efd0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetWaypoints: {fileID: 0}
+  moveSpeed: 5
