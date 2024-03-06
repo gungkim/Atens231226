@@ -1754,7 +1754,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8848457615118686017}
   - component: {fileID: 5096928411745953906}
-  - component: {fileID: 3450452746862150942}
+  - component: {fileID: 86179541643037796}
   m_Layer: 0
   m_Name: Trap_SpineAuto
   m_TagString: Untagged
@@ -1800,7 +1800,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3450452746862150942
+--- !u!114 &86179541643037796
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1809,7 +1809,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6977488873547957169}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19785d436dfc66f4db5237345fabf255, type: 3}
+  m_Script: {fileID: 11500000, guid: 77b75d1176d2b2249ab62740762ca4b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7072892177982860510
