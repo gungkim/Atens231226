@@ -6,7 +6,7 @@
             "id": "cc21121d-990b-4fa7-9e9c-f2a1bb4a0eff",
             "actions": [
                 {
-                    "name": "Move",
+                    "name": "OnMove",
                     "type": "Value",
                     "id": "2d7aaf98-38d6-46d1-a211-eb65009e05b9",
                     "expectedControlType": "Vector2",
@@ -32,7 +32,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "OnMove",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -43,7 +43,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KM",
-                    "action": "Move",
+                    "action": "OnMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -54,7 +54,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KM",
-                    "action": "Move",
+                    "action": "OnMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -65,7 +65,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KM",
-                    "action": "Move",
+                    "action": "OnMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -76,14 +76,14 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KM",
-                    "action": "Move",
+                    "action": "OnMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "",
                     "id": "3e30b39f-ca7c-4e04-90db-f370ca2d7917",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "KM",

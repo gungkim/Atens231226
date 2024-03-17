@@ -1,64 +1,114 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
-{   
-    
-    Transform hinge;
+{
+    // 플레이어의 이동 속도
+    public float moveSpeed = 5f;
 
-    float attackSpeed = 2.0f;
+    // 플레이어의 점프 힘
+    public float jumpForce = 5f; // 점프력을 반으로 줄임
 
-    InputActions inputActions;
+    // 플레이어의 Rigidbody2D 컴포넌트
+    private Rigidbody2D rb;
 
-    Rigidbody2D rigid;
+    // 플레이어가 땅에 닿아있는지 여부를 나타내는 변수
+    private bool isGrounded = false;
 
-    readonly int IsMove_Hash = Animator.StringToHash("IsMove");
+    // 플레이어가 점프 중인지 여부를 나타내는 변수
+    private bool isJumping = false;
 
-    public float rotationAngle = 90f;
+    // 플레이어의 점프 시작 시간을 저장하는 변수
+    private float jumpStartTime;
 
-    private void Awake()
-    {
+    // 플레이어의 이동 방향을 저장하는 변수
+    private float moveDirection = 0f;
 
-        rigid = GetComponent<Rigidbody2D>();
-        inputActions = new InputActions();
-       
-        hinge = transform.GetChild(0);
-    }
+    // 플레이어의 공격 애니메이터
+    public Animator animator;
 
-    private void OnEnable()
-    {
-        inputActions.Player.Enable();
-        inputActions.Player.OnAttack.performed += OnAttack;
-    }
+    // 플레이어의 허용되는 공격 간격
+    public float attackCooldown = 0.5f;
 
- 
+    // 마지막으로 공격한 시간
+    private float lastAttackTime = 0f;
 
-    private void OnDisable()
-    {
-        inputActions.Player.OnAttack.canceled -= OnAttack;
-        inputActions.Player.Disable();
-    }
+    // 플레이어의 이동 및 공격 상태
+    private bool isMoving = false;
+    private bool isAttacking = false;
 
+    // 플레이어의 자식 오브젝트인 hinge
+    private Transform hinge;
+
+    // 플레이어의 점프 회수를 제한하는 변수
+    private int jumpCount = 0;
 
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
+        hinge = transform.Find("hinge");
     }
-
 
     void Update()
     {
-        Transform hinge = transform.Find("Hinge");
+        // 이동 입력 처리
+        moveDirection = Input.GetAxisRaw("Horizontal");
+
+        // 점프 입력 처리
+        if (Input.GetButtonDown("Jump") && (isGrounded || jumpCount < 2))
+        {
+            Jump();
+        }
+
+        // 공격 입력 처리
+        if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= attackCooldown)
+        {
+            Attack();
+        }
     }
 
-   private void OnAttack(InputAction.CallbackContext context)
+    void FixedUpdate()
     {
-        hinge.Rotate(Vector3.down, rotationAngle * Time.deltaTime);
-        Debug.Log("공격");
+        // 이동 처리
+        rb.velocity = new Vector2(moveDirection * moveSpeed, rb.velocity.y);
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        // 땅에 닿았을 때
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+            isJumping = false;
+            jumpCount = 0; // 땅에 닿았을 때 점프 회수 초기화
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        // 땅에서 떨어졌을 때
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
+    }
+
+    void Jump()
+    {
+        isJumping = true;
+        jumpStartTime = Time.time;
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        jumpCount++; // 점프 회수 증가
+    }
+
+    void Attack()
+    {
+        // 공격 애니메이션 재생
+        animator.SetTrigger("Attack");
+
+        // 공격 상태 업데이트
+        isAttacking = true;
+
+        // 마지막으로 공격한 시간 업데이트
+        lastAttackTime = Time.time;
     }
 }

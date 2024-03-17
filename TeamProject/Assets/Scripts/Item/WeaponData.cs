@@ -10,6 +10,8 @@ public class WeaponData : ScriptableObject
     public WeaponCode code;
     public string itemName = "아이템";
     public string itemDescription = "설명";
+    public uint weaponDamage = 10;
+    public float weaponSpeed = 1.0f;
     public Sprite itemIcon;
     public uint price = 0;
     public uint maxStackCount = 1;

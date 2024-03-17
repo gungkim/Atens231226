@@ -28,7 +28,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             ""id"": ""cc21121d-990b-4fa7-9e9c-f2a1bb4a0eff"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""OnMove"",
                     ""type"": ""Value"",
                     ""id"": ""2d7aaf98-38d6-46d1-a211-eb65009e05b9"",
                     ""expectedControlType"": ""Vector2"",
@@ -54,7 +54,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""OnMove"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -65,7 +65,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KM"",
-                    ""action"": ""Move"",
+                    ""action"": ""OnMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -76,7 +76,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KM"",
-                    ""action"": ""Move"",
+                    ""action"": ""OnMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -87,7 +87,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KM"",
-                    ""action"": ""Move"",
+                    ""action"": ""OnMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -98,14 +98,14 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KM"",
-                    ""action"": ""Move"",
+                    ""action"": ""OnMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
                     ""id"": ""3e30b39f-ca7c-4e04-90db-f370ca2d7917"",
-                    ""path"": ""<Keyboard>/shift"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KM"",
@@ -137,7 +137,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_OnMove = m_Player.FindAction("OnMove", throwIfNotFound: true);
         m_Player_OnAttack = m_Player.FindAction("OnAttack", throwIfNotFound: true);
     }
 
@@ -200,13 +200,13 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_OnMove;
     private readonly InputAction m_Player_OnAttack;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
         public PlayerActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @OnMove => m_Wrapper.m_Player_OnMove;
         public InputAction @OnAttack => m_Wrapper.m_Player_OnAttack;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -217,9 +217,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @Move.started += instance.OnMove;
-            @Move.performed += instance.OnMove;
-            @Move.canceled += instance.OnMove;
+            @OnMove.started += instance.OnOnMove;
+            @OnMove.performed += instance.OnOnMove;
+            @OnMove.canceled += instance.OnOnMove;
             @OnAttack.started += instance.OnOnAttack;
             @OnAttack.performed += instance.OnOnAttack;
             @OnAttack.canceled += instance.OnOnAttack;
@@ -227,9 +227,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @Move.started -= instance.OnMove;
-            @Move.performed -= instance.OnMove;
-            @Move.canceled -= instance.OnMove;
+            @OnMove.started -= instance.OnOnMove;
+            @OnMove.performed -= instance.OnOnMove;
+            @OnMove.canceled -= instance.OnOnMove;
             @OnAttack.started -= instance.OnOnAttack;
             @OnAttack.performed -= instance.OnOnAttack;
             @OnAttack.canceled -= instance.OnOnAttack;
@@ -261,7 +261,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnMove(InputAction.CallbackContext context);
+        void OnOnMove(InputAction.CallbackContext context);
         void OnOnAttack(InputAction.CallbackContext context);
     }
 }

@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    // Start is called before the first frame update
-    void Start()
+    Player player;
+
+    public Player Player => player;
+
+    WeaponDataManager weaponDataManager;
+
+    public WeaponDataManager WeaponData => WeaponData;
+
+    protected override void OnPreInitialize()
     {
-        
+        base.OnPreInitialize();
+        weaponDataManager = GetComponent<WeaponDataManager>();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void OnInitialize()
     {
-        
+        player = FindAnyObjectByType<Player>();
     }
 }

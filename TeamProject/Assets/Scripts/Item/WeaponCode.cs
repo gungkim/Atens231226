@@ -6,6 +6,6 @@ public enum WeaponCode
 {
     ShortSword =0,
     Katana,
-    sheild,
-    kunai,
+    WoodenSword,
+
 }
