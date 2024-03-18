@@ -21,21 +21,13 @@ public class WeaponBase : MonoBehaviour
 
     public float critical = 10.0f;
 
+    /// <summary>
+    /// 적에게 입히는 데미지의 총합
+    /// </summary>
     public int totalDamage =>  weaponDamage + player.attackPower;
 
 
-
     bool isAttack = false;
-
-    /// <summary>
-    /// 무기판매 가격
-    /// </summary>
-    public uint price = 0;
-
-    /// <summary>
-    /// 무기의 대한 부가 설명
-    /// </summary>
-    public string description = "설명";
 
     private void Awake()
     {

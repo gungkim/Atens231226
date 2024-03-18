@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-// Editor를 상속받으면 에디터에서만 작동함
 [CustomEditor(typeof(WeaponBase))]
-public class WeaponEditor : Editor
+public class NonCombatWeaponEditor : Editor
 {
     private WeaponBase selected;
 
@@ -26,37 +23,10 @@ public class WeaponEditor : Editor
         if (selected == null)
             return;
 
-        Texture2D texture;
-        SpriteRenderer spriteRenderer = selected.GetComponent<SpriteRenderer>();
-        EditorGUILayout.LabelField("무기 스프라이트");
-        texture = SpriteToTexture2D(spriteRenderer.sprite);
-
-        if (texture != null)
-        {
-            GUILayout.Label("", GUILayout.Height(64), GUILayout.Width(64));
-            GUI.DrawTexture(GUILayoutUtility.GetLastRect(), texture);
-        }
-
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("무기정보 입력 ( 공격력, 범위, 공격 속도) ");
+        EditorGUILayout.LabelField("무기 부가정보 입력(무기 가격, 무기 설명)");
         EditorGUILayout.Space();
 
-        GUI.color = Color.white;
-        selected.attackDamage = EditorGUILayout.IntField("무기 공격력", selected.attackDamage);
-        if (selected.attackDamage < 0)
-            selected.attackDamage = 1;
-
-        selected.attackRange = EditorGUILayout.FloatField("무기 공격범위", selected.attackRange);
-        if (selected.attackRange < 0)
-            selected.attackRange = 0;
-
-        selected.attackSpeed = EditorGUILayout.FloatField("무기 공격속도", selected.attackSpeed);
-        if (selected.attackSpeed < 0)
-            selected.attackSpeed = 0;
-
-        EditorGUILayout.Space();
-        EditorGUILayout.LabelField("무기 부가정보 입력");
-        EditorGUILayout.Space();
 
         selected.price = (uint)EditorGUILayout.IntField("무기 가격", (int)selected.price);
         selected.description = EditorGUILayout.TextField("무기 설명", selected.description);
