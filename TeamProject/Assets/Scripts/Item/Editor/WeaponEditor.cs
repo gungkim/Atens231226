@@ -46,9 +46,9 @@ public class WeaponEditor : Editor
         if (selected.weaponDamage < 0)
             selected.weaponDamage = 1;
 
-        selected.WeaponSpeed = EditorGUILayout.FloatField("무기 공격속도", selected.WeaponSpeed);
-        if (selected.WeaponSpeed < 0)
-            selected.WeaponSpeed = 0;
+        selected.weaponSpeed = EditorGUILayout.FloatField("무기 공격속도", selected.weaponSpeed);
+        if (selected.weaponSpeed < 0)
+            selected.weaponSpeed = 0;
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("무기 부가정보 입력");

@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: WoodenSword
   m_EditorClassIdentifier: 
   code: 2
-  itemName: "\uC544\uC774\uD15C"
-  itemDescription: "\uC124\uBA85"
-  weaponDamage: 10
-  weaponSpeed: 1
-  itemIcon: {fileID: 0}
+  itemName: "\uC5F0\uC2B5\uC6A9 \uBAA9\uAC80"
+  itemDescription: "\uAC80\uC220\uC744 \uBC30\uC6B8 \uB54C \uC0AC\uC6A9\uD558\uB294
+    \uBAA9\uAC80"
+  weaponDamage: 5
+  weaponSpeed: 2
+  itemIcon: {fileID: 21300000, guid: a4af7e54f2ac011498c2b10e1119579c, type: 3}
   price: 0
   maxStackCount: 1
   modelPrefab: {fileID: 0}
