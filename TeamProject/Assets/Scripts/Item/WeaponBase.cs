@@ -1,10 +1,13 @@
+using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponBase : MonoBehaviour
 {
     new Rigidbody2D rigidbody;
     Animator animator;
+    Player player;
     
     /// <summary>
     /// 무기 공격 데미지
@@ -14,9 +17,14 @@ public class WeaponBase : MonoBehaviour
     /// <summary>
     /// 무기 공격 속도
     /// </summary>
-    public float weaponSpeed = 3.0f;
+    public float weaponSpeed = 1.0f;
 
-    
+    public float critical = 10.0f;
+
+    public int totalDamage =>  weaponDamage + player.attackPower;
+
+
+
     bool isAttack = false;
 
     /// <summary>
@@ -33,6 +41,7 @@ public class WeaponBase : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        player = GameManager.Instance.Player;
     }
 
     /// <summary>
@@ -53,15 +62,13 @@ public class WeaponBase : MonoBehaviour
         // 충돌한 객체가 "Enemy" 태그를 가지고 있는지 확인
         if (collision.CompareTag("Enemy"))
         {
-            // 충돌한 객체가 Enemy 스크립트를 가지고 있는지 확인
-            Enemy enemy = collision.GetComponent<Enemy>();
-
-            if (enemy != null)
+            if(collision.GetComponent<Enemy>() != null)
             {
+                
                 // 적에게 공격 데미지를 입힘
-                int totalDamage = weaponDamage + Player.Instance.attackPower;
+                int totalDamage = weaponDamage + player.attackPower;
                 enemy.Damaged(totalDamage);
             }
         }
     }
-}
+}    // 공격속도 애니메이션 말고 delta time에다가 곱하는걸로 변경. 공격의 모션은 애니메이션이 아닌 일반적 좌표 변환     

@@ -75,3 +75,4 @@ public class WeaponEditor : Editor
             return sprite.texture;
     }
 }
+// 클래스별 세분화에서 이펙트별로 리지드 부여
